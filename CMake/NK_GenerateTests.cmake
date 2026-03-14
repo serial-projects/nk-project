@@ -13,9 +13,6 @@ function(NK_GenerateTests tests link_with)
         math(EXPR t_index_next "${t_index} + 1")
         list(GET tests ${t_index_next} t_name)
 
-        # Debug This:
-        message(STATUS "NK will compile test: ${t_name}")
-
         # We define the executable here:
         add_executable(${t_name} ${t_path})
         target_link_libraries(${t_name} PRIVATE ${link_with})

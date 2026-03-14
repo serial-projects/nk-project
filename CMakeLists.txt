@@ -29,7 +29,7 @@ target_link_libraries(NK PRIVATE NK_ANSICDemandInterface)
 # Generate some tests:
 if(NK_ENABLE_TESTS)
     # Define an list of tests we want to include:
-    message(STATUS "Enabling NK tests...")
+    enable_testing()
 
     set(rr_tests
         "${CMAKE_CURRENT_SOURCE_DIR}/tests/NKInit.c" "NK_InitTest"
