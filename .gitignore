@@ -1,0 +1,6 @@
+# This ignores everything I don't want ;-)
+Build
+*.o
+*.so
+*.dll
+*.a
