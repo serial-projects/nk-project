@@ -16,6 +16,7 @@ list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/CMake")
 include(NK_ANSICDemand)
 include(NK_ASanSupport)
 include(NK_GenerateTests)
+include(NK_TestEnvironment)
 
 # Defines the `NK` target here:
 file(GLOB_RECURSE nk_sources "${CMAKE_CURRENT_SOURCE_DIR}/src/*.c")
