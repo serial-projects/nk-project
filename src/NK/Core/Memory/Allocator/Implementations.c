@@ -3,8 +3,11 @@
  * Project is under GPL3-license, read LICENSE.md on the root.
  */
 
+#include "NK/Types/AllocatorStatistics.h"
 #include "NK/Internals/Subsystems/GlobalAllocatorStatistics.h"
-#include "NK/Core/Memory/Allocator.h"
+#include "NK/Core/Memory/Allocator/Implementations.h"
+
+#include "NK/Redirects.h"
 #include "NK/Core/Panic.h"
 #include "NK/Config.h"
 
