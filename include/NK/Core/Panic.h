@@ -6,6 +6,7 @@
 #define NKCorePanic_h
 
 #include "NK/Types/Basics.h"
+#include "NK/Support.h"
 
 void
 NK_Panic(

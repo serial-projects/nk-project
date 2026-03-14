@@ -27,7 +27,10 @@
 /** NK/Types/String/String.c: */
 #define NK_CONFIG_CONTAINERS_STRING_CONSTRUCT_DEFAULT_SIZE                      10
 
-/** NK/Types/Containers/Map.h */
+/** NK/Types/Containers/Map.c: */
 #define NK_CONFIG_CONTAINERS_MAP_CHAIN_DEFAULT_SIZE                             10
+
+/** NK/Core/Validator.c: */
+#define NK_CONFIG_CORE_VALIDATOR_PUSH_MESSAGE_BUFFER                            512
 
 #endif
