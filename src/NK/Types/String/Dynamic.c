@@ -68,7 +68,7 @@ NK_DynamicStringResize(
         NK_RedirectMemset(
             (NK_C8*)(new_buffer) + 
             (
-                (new_size - string->capacity) *
+                (string->capacity) *
                 sizeof(NK_C8)
             ),
             0,
