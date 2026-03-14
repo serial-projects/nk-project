@@ -23,5 +23,4 @@ function(NK_GenerateTests tests link_with)
         # Add the test:
         add_test(NAME ${t_name} COMMAND ${t_name})
     endforeach()
-    
 endfunction()

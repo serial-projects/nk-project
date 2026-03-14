@@ -9,7 +9,7 @@ project(
 
 # Options of NK:
 option(NK_ENABLE_ASAN "If ASAN should be used on NK" OFF)
-option(NK_ENABLE_TEST "If tests should be considered" OFF)
+option(NK_ENABLE_TESTS "If tests should be considered" OFF)
 
 # Set the path for the NK CMake extensions:
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/CMake")
@@ -29,12 +29,14 @@ target_link_libraries(NK PRIVATE NK_ANSICDemandInterface)
 # Generate some tests:
 if(NK_ENABLE_TESTS)
     # Define an list of tests we want to include:
+    message(STATUS "Enabling NK tests...")
+
     set(rr_tests
         "${CMAKE_CURRENT_SOURCE_DIR}/tests/NKInit.c" "NK_InitTest"
         "${CMAKE_CURRENT_SOURCE_DIR}/tests/NKMapInsertion.c" "NK_MapInsertionTest"
         "${CMAKE_CURRENT_SOURCE_DIR}/tests/NKMapIsStringDeleting.c" "NK_MapIsStringDeletingTest"
         "${CMAKE_CURRENT_SOURCE_DIR}/tests/NKSubmergedStrings.c" "NKSubmergedStringTest"
-        "${CMAKE_CURRENT_SOURCE_DIR}/tests/NKTableInsertion.c" "NKTableInsertion"
+        "${CMAKE_CURRENT_SOURCE_DIR}/tests/NKTableInsertion.c" "NKTableInsertionTest"
         "${CMAKE_CURRENT_SOURCE_DIR}/tests/NKValidator.c" "NK_ValidatorTest"
     )
 
