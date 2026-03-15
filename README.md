@@ -9,7 +9,8 @@ programming. Things like containers and controllers.
 3. `NK_DynamicString` faster and "ephemeral" strings;
 4. `NK_Validator` an logger merged with a validator;
 5. `NK_Allocator` with support of statistics;
-6. `NK_Reader` and `NK_Writer` for IO operations and generic interface.
+6. `NK_Reader` and `NK_Writer` for IO operations and generic interface;
+7. Writen in ANSI C.
 
 And many more.
 
