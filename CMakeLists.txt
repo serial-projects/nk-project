@@ -33,13 +33,13 @@ if(NK_ENABLE_TESTS)
     enable_testing()
 
     set(rr_tests
-        "${CMAKE_CURRENT_SOURCE_DIR}/tests/NKInit.c" "NK_InitTest"
-        "${CMAKE_CURRENT_SOURCE_DIR}/tests/NKMapInsertion.c" "NK_MapInsertionTest"
-        "${CMAKE_CURRENT_SOURCE_DIR}/tests/NKMapIsStringDeleting.c" "NK_MapIsStringDeletingTest"
-        "${CMAKE_CURRENT_SOURCE_DIR}/tests/NKSubmergedStrings.c" "NK_SubmergedStringTest"
-        "${CMAKE_CURRENT_SOURCE_DIR}/tests/NKTableInsertion.c" "NK_TableInsertionTest"
-        "${CMAKE_CURRENT_SOURCE_DIR}/tests/NKValidator.c" "NK_ValidatorTest"
-        "${CMAKE_CURRENT_SOURCE_DIR}/tests/NKSet.c" "NK_SetTest"
+        "${CMAKE_CURRENT_SOURCE_DIR}/tests/Base/NKInit.c" "NK_InitTest"
+        "${CMAKE_CURRENT_SOURCE_DIR}/tests/Base/NKMapInsertion.c" "NK_MapInsertionTest"
+        "${CMAKE_CURRENT_SOURCE_DIR}/tests/Base/NKMapIsStringDeleting.c" "NK_MapIsStringDeletingTest"
+        "${CMAKE_CURRENT_SOURCE_DIR}/tests/Base/NKSubmergedStrings.c" "NK_SubmergedStringTest"
+        "${CMAKE_CURRENT_SOURCE_DIR}/tests/Base/NKTableInsertion.c" "NK_TableInsertionTest"
+        "${CMAKE_CURRENT_SOURCE_DIR}/tests/Base/NKValidator.c" "NK_ValidatorTest"
+        "${CMAKE_CURRENT_SOURCE_DIR}/tests/Base/NKSet.c" "NK_SetTest"
     )
 
     # Add an interface for the tests:
