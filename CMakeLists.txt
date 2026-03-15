@@ -36,9 +36,10 @@ if(NK_ENABLE_TESTS)
         "${CMAKE_CURRENT_SOURCE_DIR}/tests/NKInit.c" "NK_InitTest"
         "${CMAKE_CURRENT_SOURCE_DIR}/tests/NKMapInsertion.c" "NK_MapInsertionTest"
         "${CMAKE_CURRENT_SOURCE_DIR}/tests/NKMapIsStringDeleting.c" "NK_MapIsStringDeletingTest"
-        "${CMAKE_CURRENT_SOURCE_DIR}/tests/NKSubmergedStrings.c" "NKSubmergedStringTest"
-        "${CMAKE_CURRENT_SOURCE_DIR}/tests/NKTableInsertion.c" "NKTableInsertionTest"
+        "${CMAKE_CURRENT_SOURCE_DIR}/tests/NKSubmergedStrings.c" "NK_SubmergedStringTest"
+        "${CMAKE_CURRENT_SOURCE_DIR}/tests/NKTableInsertion.c" "NK_TableInsertionTest"
         "${CMAKE_CURRENT_SOURCE_DIR}/tests/NKValidator.c" "NK_ValidatorTest"
+        "${CMAKE_CURRENT_SOURCE_DIR}/tests/NKSet.c" "NK_SetTest"
     )
 
     # Add an interface for the tests:

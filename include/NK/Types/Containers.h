@@ -8,5 +8,6 @@
 #include "NK/Types/Containers/Queue.h"
 #include "NK/Types/Containers/Vector.h"
 #include "NK/Types/Containers/Map.h"
+#include "NK/Types/Containers/Set.h"
 
 #endif

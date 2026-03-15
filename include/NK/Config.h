@@ -33,4 +33,7 @@
 /** NK/Core/Validator.c: */
 #define NK_CONFIG_CORE_VALIDATOR_PUSH_MESSAGE_BUFFER                            512
 
+/** NK/Types/Containers/Set.c: */
+#define NK_CONFIG_TYPES_CONTAINERS_SET_CHAIN_DEFAULT_SIZE                       10
+
 #endif
