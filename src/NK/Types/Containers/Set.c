@@ -243,7 +243,7 @@ NK_SetAt(
         goto chain_not_found_ending;
     }
 
-    cc_header = (NK_SetNodeHeader*)(maybe_chain);
+    cc_header = (NK_SetChainHeader*)(maybe_chain);
     index = 0;
     for(index; index < cc_header->explored; index++)
     {
