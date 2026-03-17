@@ -32,8 +32,6 @@ include(NK_TestEnvironment)
 # We define an generic target:
 add_library(NK_Headers INTERFACE)
 target_include_directories(NK_Headers INTERFACE "${CMAKE_CURRENT_SOURCE_DIR}/include")
-target_link_libraries(NK_Headers INTERFACE NK_ASanSupportInterface)
-target_link_libraries(NK_Headers INTERFACE NK_ANSICDemandInterface)
 
 # Get the source files:
 file(GLOB_RECURSE nk_sources "${CMAKE_CURRENT_SOURCE_DIR}/src/*.c")
@@ -42,15 +40,24 @@ file(GLOB_RECURSE nk_sources "${CMAKE_CURRENT_SOURCE_DIR}/src/*.c")
 if(NK_STATIC)
     add_library(NK_Static STATIC ${nk_sources})
     target_link_libraries(NK_Static PUBLIC NK_Headers)
+    target_link_libraries(NK_Static PRIVATE NK_ASanSupportInterface)
+    target_link_libraries(NK_Static PRIVATE NK_ANSICDemandInterface)
+
+    # Set this to the namespace:
     add_library(NK::NK-static ALIAS NK_Static)
 endif()
 
 if(NK_SHARED)
     add_library(NK_Shared SHARED ${nk_sources})
     target_link_libraries(NK_Shared PUBLIC NK_Headers)
+    target_link_libraries(NK_Shared PRIVATE NK_ASanSupportInterface)
+    target_link_libraries(NK_Shared PRIVATE NK_ANSICDemandInterface)
+
+    # Set this to the namespace:
     add_library(NK::NK-shared ALIAS NK_Shared)
 endif()
 
+# Debug some messages on CMake:
 message(STATUS "[[ NK \"${NK_VENDOR_NAME}\" - Version: ${PROJECT_VERSION} ]]")
 message(STATUS "Enable Static:  ${NK_STATIC}")
 message(STATUS "Enable Shared:  ${NK_SHARED}")
@@ -58,7 +65,7 @@ message(STATUS "Enable Tests:   ${NK_ENABLE_TESTS}")
 message(STATUS "Enable ASan:    ${NK_ENABLE_ASAN}")
 message(STATUS "[[ NK \"${NK_VENDOR_NAME}\" - Version: ${PROJECT_VERSION} ]]")
 
-# Tests:
+# Build the tests:
 if(NK_ENABLE_TESTS)
     # Define an list of tests we want to include:
     enable_testing()
