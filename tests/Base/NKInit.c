@@ -19,7 +19,7 @@ main(
 
     printf("\t%s: Calling NK_Quit()\n", __FILE__);
     NK_Quit();
-    
+        
     /** Reached here with no crashes? Good. */
     return 0;
 }
