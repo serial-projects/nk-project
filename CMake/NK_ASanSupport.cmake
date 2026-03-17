@@ -7,7 +7,6 @@
 #                                       allocation.
 add_library(NK_ASanSupportInterface INTERFACE)
 if(NK_ENABLE_ASAN)
-    message(STATUS "NK will include Address Sanitizer!")
     if(MSVC)
         target_compile_options(NK_ASanSupportInterface INTERFACE
             $<$<CONFIG:Debug>:/fsanitize=address /Zi>

@@ -18,8 +18,9 @@ NK_RunCMAKEToConstructDebugVersion(){
             -G Ninja                                \
             ..                                      \
             -DCMAKE_BUILD_TYPE="Debug"              \
-            -DNK_ENABLE_ASAN=true                   \
-            -DNK_ENABLE_TESTS=true
+            -DNK_ENABLE_ASAN=ON                     \
+            -DNK_ENABLE_TESTS=ON                    \
+            -DNK_SHARED=ON
             # --debug-find                            \
             # --trace-expand
         [[ $? -eq 0 ]] && cmake --build . -v -j10

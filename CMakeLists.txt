@@ -4,12 +4,23 @@
 cmake_minimum_required(VERSION 3.20)
 project(
     NK
-    VERSION 1.0
+    VERSION 1.0.000
 )
+
+# Set some configurations:
+set(NK_VENDOR_NAME "Ruka Raposa")
 
 # Options of NK:
 option(NK_ENABLE_ASAN "If ASAN should be used on NK" OFF)
 option(NK_ENABLE_TESTS "If tests should be considered" OFF)
+option(NK_STATIC "Enable static NK" OFF)
+option(NK_SHARED "Enable shared NK" ON)
+
+# Set the `NK_ENABLE_TESTS`, we need NK_Static for the code.
+if(NK_ENABLE_TESTS AND NOT NK_STATIC)
+    message(WARNING "Enabling NK_STATIC because NK_ENABLE_TESTS requires!")
+    set(NK_STATIC ON)
+endif()
 
 # Set the path for the NK CMake extensions:
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/CMake")
@@ -18,16 +29,36 @@ include(NK_ASanSupport)
 include(NK_GenerateTests)
 include(NK_TestEnvironment)
 
-# Defines the `NK` target here:
+# We define an generic target:
+add_library(NK_Headers INTERFACE)
+target_include_directories(NK_Headers INTERFACE "${CMAKE_CURRENT_SOURCE_DIR}/include")
+target_link_libraries(NK_Headers INTERFACE NK_ASanSupportInterface)
+target_link_libraries(NK_Headers INTERFACE NK_ANSICDemandInterface)
+
+# Get the source files:
 file(GLOB_RECURSE nk_sources "${CMAKE_CURRENT_SOURCE_DIR}/src/*.c")
-add_library(NK STATIC ${nk_sources})
-target_include_directories(NK PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/include")
 
-# Include support libraries:
-target_link_libraries(NK PRIVATE NK_ASanSupportInterface)
-target_link_libraries(NK PRIVATE NK_ANSICDemandInterface)
+# Main Targets: NK_Static/NK_Shared
+if(NK_STATIC)
+    add_library(NK_Static STATIC ${nk_sources})
+    target_link_libraries(NK_Static PUBLIC NK_Headers)
+    add_library(NK::NK-static ALIAS NK_Static)
+endif()
 
-# Generate some tests:
+if(NK_SHARED)
+    add_library(NK_Shared SHARED ${nk_sources})
+    target_link_libraries(NK_Shared PUBLIC NK_Headers)
+    add_library(NK::NK-shared ALIAS NK_Shared)
+endif()
+
+message(STATUS "[[ NK \"${NK_VENDOR_NAME}\" - Version: ${PROJECT_VERSION} ]]")
+message(STATUS "Enable Static:  ${NK_STATIC}")
+message(STATUS "Enable Shared:  ${NK_SHARED}")
+message(STATUS "Enable Tests:   ${NK_ENABLE_TESTS}")
+message(STATUS "Enable ASan:    ${NK_ENABLE_ASAN}")
+message(STATUS "[[ NK \"${NK_VENDOR_NAME}\" - Version: ${PROJECT_VERSION} ]]")
+
+# Tests:
 if(NK_ENABLE_TESTS)
     # Define an list of tests we want to include:
     enable_testing()
@@ -44,7 +75,7 @@ if(NK_ENABLE_TESTS)
 
     # Add an interface for the tests:
     add_library(nk_test_i INTERFACE)
-    target_link_libraries(nk_test_i INTERFACE NK)
+    target_link_libraries(nk_test_i INTERFACE NK::NK-static)
     target_link_libraries(nk_test_i INTERFACE NK_ASanSupportInterface)
     target_link_libraries(nk_test_i INTERFACE NK_ANSICDemandInterface)
 
