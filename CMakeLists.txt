@@ -13,8 +13,8 @@ set(NK_VENDOR_NAME "Ruka Raposa")
 # Options of NK:
 option(NK_ENABLE_ASAN "If ASAN should be used on NK" OFF)
 option(NK_ENABLE_TESTS "If tests should be considered" OFF)
-option(NK_STATIC "Enable static NK" OFF)
-option(NK_SHARED "Enable shared NK" ON)
+option(NK_STATIC "Enable static NK" ON)
+option(NK_SHARED "Enable shared NK" OFF)
 
 # Set the `NK_ENABLE_TESTS`, we need NK_Static for the code.
 if(NK_ENABLE_TESTS AND NOT NK_STATIC)
