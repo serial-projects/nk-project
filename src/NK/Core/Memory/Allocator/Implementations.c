@@ -166,14 +166,22 @@ NK_AllocatorImplementationResizeBlock(
     NK_U8* clean_zone;
     NK_Size past_size;
 
-    /** Handle realloc(0): */
+    /**
+     * XXX: This is also treated as a free() because yes.
+     */
     if(new_size <= 0)
     {
-        NK_Panic(
-            "[At: \"%s\"] Attempt to realloc block %p to size 0",
-            from,
-            block
-        );
+        NK_AllocatorImplementationFree(from, block);
+        return NULL;
+    }
+
+    /**
+     * XXX: Because of people who like to say (NULL, new_size) is equivalent
+     * to malloc(new_size), we need to account for this.
+     */
+    if(block == NULL)
+    {
+        return NK_AllocatorImplementationGet(from, new_size);
     }
 
     /** We get the start of the block itself and save the `past_size`: */
