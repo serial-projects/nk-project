@@ -1,7 +1,7 @@
 # NK Project
 
-NK Project (or New Key Project) is a set of types and implementaitons to aid C 
-programming. Things like containers and controllers.
+NK Project (or New Key Project) is a set of types and implementations to aid C 
+programming, things like containers and controllers.
 
 ## Features
 1. `NK_Vector`, `NK_Map`, `NK_Set` for "advanced containers";
