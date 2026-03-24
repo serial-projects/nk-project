@@ -5,7 +5,7 @@
 #include "NK/Core/Readers/File.h"
 #include "NK/Types/Basics.h"
 #include "NK/Redirects.h"
-#include "NK/Core/Memory.h"
+#include "NK/Memory.h"
 
 /**
  * @brief This is the main object to be on the `NK_Reader` userdata.

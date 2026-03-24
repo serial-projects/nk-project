@@ -5,10 +5,13 @@
 #ifndef NK_h
 #define NK_h
 
+#include "NK/Enums.h"
 #include "NK/Core.h"
 #include "NK/Types.h"
 #include "NK/Support.h"
 #include "NK/Redirects.h"
+#include "NK/Memory.h"
+#include "NK/Diagnostics.h"
 
 /**
  * @brief Initialize the NK subsystems that are necessary.

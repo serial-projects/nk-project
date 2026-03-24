@@ -4,7 +4,7 @@
  */
 
 #include "NK/Types/Containers/Map.h"
-#include "NK/Core/Memory.h"
+#include "NK/Memory.h"
 #include "NK/Config.h"
 
 NK_Map*

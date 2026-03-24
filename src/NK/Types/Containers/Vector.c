@@ -4,7 +4,7 @@
  */
 
 #include "NK/Types/Containers/Vector.h"
-#include "NK/Core/Memory/Allocator.h"
+#include "NK/Memory.h"
 #include "NK/Config.h"
 
 /** Basic New/Free, Construct/Destruct: */

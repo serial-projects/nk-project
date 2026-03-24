@@ -4,7 +4,7 @@
  */
 
 #include "NK/Internals/Types/StringPool.h"
-#include "NK/Core/Memory/Allocator.h"
+#include "NK/Memory.h"
 #include "NK/Config.h"
 
 NK_StringPool*

@@ -5,7 +5,7 @@
 #ifndef NKInternalsSubsystemsGlobalAllocatorStatistics_h
 #define NKInternalsSubsystemsGlobalAllocatorStatistics_h
 
-#include "NK/Types/AllocatorStatistics.h"
+#include "NK/Memory/AllocatorStatistics.h"
 #include "NK/Types/Basics.h"
 
 /** NOTE: This must be initialized on a subsystem: */

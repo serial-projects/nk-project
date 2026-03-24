@@ -2,10 +2,10 @@
  * Ruka Raposa Project by Ruka Raposa Team & Contribuitors.
  * Project is under GPL3-license, read LICENSE.md on the root.
  */
-#ifndef NKCoreMemoryAllocatorRedirects_h
-#define NKCoreMemoryAllocatorRedirects_h
+#ifndef NKMemoryAllocatorRedirects_h
+#define NKMemoryAllocatorRedirects_h
 
-#include "NK/Core/Memory/Allocator/Implementations.h"
+#include "NK/Memory/Allocator/Implementations.h"
 #include "NK/Redirects.h"
 #include "NK/Support.h"
 

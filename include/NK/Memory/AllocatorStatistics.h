@@ -3,8 +3,8 @@
  * Project is under GPL3-license, read LICENSE.md on the root.
  */
 
-#ifndef NKTypesAllocatorStatistics_h
-#define NKTypesAllocatorStatistics_h
+#ifndef NKMemoryAllocatorStatistics_h
+#define NKMemoryAllocatorStatistics_h
 
 #include "NK/Types/Basics.h"
 

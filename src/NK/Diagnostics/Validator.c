@@ -2,9 +2,11 @@
  * Ruka Raposa Project by Ruka Raposa Team & Contribuitors.
  * Project is under GPL3-license, read LICENSE.md on the root.
  */
-#include "NK/Core/Validator.h"
+#include "NK/Diagnostics/Validator.h"
+#include "NK/Enums.h"
+#include "NK/Memory.h"
+
 #include "NK/Types/Basics.h"
-#include "NK/Core/Memory.h"
 #include "NK/Types/Containers/Vector.h"
 #include "NK/Types/String/Dynamic.h"
 #include "NK/Core/Panic.h"
@@ -223,16 +225,16 @@ NK_ValidatorAddListener(
 
     switch(level)
     {
-        case NK_VALIDATOR_LEVEL_DEBUG: 
+        case NK_ENUMS_VALIDATOR_LEVEL_DEBUG: 
             selected_sink = &validator->debug_sink;
             break;
-        case NK_VALIDATOR_LEVEL_LOG:
+        case NK_ENUMS_VALIDATOR_LEVEL_LOG:
             selected_sink = &validator->log_sink;
             break;
-        case NK_VALIDATOR_LEVEL_WARNING:
+        case NK_ENUMS_VALIDATOR_LEVEL_WARNING:
             selected_sink = &validator->warning_sink;
             break;
-        case NK_VALIDATOR_LEVEL_ERROR: 
+        case NK_ENUMS_VALIDATOR_LEVEL_ERROR: 
             selected_sink = &validator->error_sink;
             break;
         default:
@@ -300,16 +302,16 @@ NK_ValidatorPushMessage(
 
     switch(level)
     {
-        case NK_VALIDATOR_LEVEL_DEBUG:
+        case NK_ENUMS_VALIDATOR_LEVEL_DEBUG:
             selected_sink = &validator->debug_sink;
             break;
-        case NK_VALIDATOR_LEVEL_LOG:
+        case NK_ENUMS_VALIDATOR_LEVEL_LOG:
             selected_sink = &validator->log_sink;
             break;
-        case NK_VALIDATOR_LEVEL_WARNING:
+        case NK_ENUMS_VALIDATOR_LEVEL_WARNING:
             selected_sink = &validator->warning_sink;
             break;
-        case NK_VALIDATOR_LEVEL_ERROR:
+        case NK_ENUMS_VALIDATOR_LEVEL_ERROR:
             selected_sink = &validator->error_sink;
             break;
         default:

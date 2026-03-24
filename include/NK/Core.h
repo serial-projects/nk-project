@@ -5,8 +5,6 @@
 #ifndef NKCore_h
 #define NKCore_h
 
-#include "NK/Core/Memory.h"
 #include "NK/Core/Panic.h"
-#include "NK/Core/Validator.h"
 
 #endif

@@ -5,8 +5,8 @@
 
 #include "NK/Internals/Types/Table.h"
 #include "NK/Types/Basics.h"
-#include "NK/Core/Memory/Allocator.h"
 #include "NK/Internals/Hash.h"
+#include "NK/Memory.h"
 #include "NK/Config.h"
 
 /** New, Free, Construct and Destruct functions: */

@@ -6,7 +6,7 @@
  */
 
 #include "NK/Types/Containers/Queue.h"
-#include "NK/Core/Memory.h"
+#include "NK/Memory.h"
 #include "NK/Redirects.h"
 #include "NK/Config.h"
 

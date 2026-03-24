@@ -4,7 +4,7 @@
  */
 
 #include "NK/Core/Reader.h"
-#include "NK/Core/Memory.h"
+#include "NK/Memory.h"
 
 NK_Reader*
 NK_ReaderNew()

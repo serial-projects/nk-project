@@ -5,6 +5,7 @@
 #ifndef NKMemory_h
 #define NKMemory_h
 
-#include "NK/Core/Memory/Allocator.h"
+#include "NK/Memory/Allocator.h"
+#include "NK/Memory/AllocatorStatistics.h"
 
 #endif

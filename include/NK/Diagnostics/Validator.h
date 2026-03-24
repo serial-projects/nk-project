@@ -2,8 +2,8 @@
  * Ruka Raposa Project by Ruka Raposa Team & Contribuitors.
  * Project is under GPL3-license, read LICENSE.md on the root.
  */
-#ifndef NKCoreValidator_h
-#define NKCoreValidator_h
+#ifndef NKDiagnosticsValidator_h
+#define NKDiagnosticsValidator_h
 
 #include "NK/Types/Basics.h"
 #include "NK/Types/Containers/Vector.h"
@@ -15,26 +15,6 @@
 #include "NK/Types/String/Dynamic.h"
 
 /**
- * @brief This is the level for the debug messages.
- */
-#define NK_VALIDATOR_LEVEL_DEBUG    0b10000000
-
-/**
- * @brief This is the level for the log messages.
- */
-#define NK_VALIDATOR_LEVEL_LOG      0b01000000
-
-/**
- * @brief This is the level for the warning messages.
- */
-#define NK_VALIDATOR_LEVEL_WARNING  0b00100000
-
-/**
- * @brief This is the level for the crash messages.
- */
-#define NK_VALIDATOR_LEVEL_ERROR    0b00010000
-
-/**
  * @brief Is the container for the message internally!
  */
 typedef struct NK_ValidatorMessage
@@ -42,7 +22,6 @@ typedef struct NK_ValidatorMessage
     NK_DynamicString string;
     NK_U8 flags;
 } NK_ValidatorMessage;
-
 
 /**
  * @brief This the main content passed to the callbacks.

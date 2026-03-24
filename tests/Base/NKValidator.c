@@ -48,25 +48,25 @@ P_NK_ValidatorTest()
     /** We can write things here: */
     NK_ValidatorAddListener(
         &m_validator,
-        NK_VALIDATOR_LEVEL_LOG,
+        NK_ENUMS_VALIDATOR_LEVEL_LOG,
         P_NK_ValidatorTestAnyLevelCallbackFunction
     );
 
     NK_ValidatorPushMessage(
         &m_validator,
-        NK_VALIDATOR_LEVEL_LOG,
+        NK_ENUMS_VALIDATOR_LEVEL_LOG,
         "Hello! This should go behind me!"
     );
 
     NK_ValidatorPushMessage(
         &m_validator,
-        NK_VALIDATOR_LEVEL_LOG,
+        NK_ENUMS_VALIDATOR_LEVEL_LOG,
         "I am here!"
     );
 
     NK_ValidatorAddListener(
         &m_validator,
-        NK_VALIDATOR_LEVEL_WARNING,
+        NK_ENUMS_VALIDATOR_LEVEL_WARNING,
         P_NK_ValidatorTestWarningSpecificLevelCallbackFunction
     );
 
@@ -75,7 +75,7 @@ P_NK_ValidatorTest()
     {
         NK_ValidatorPushMessage(
             &m_validator,
-            NK_VALIDATOR_LEVEL_LOG,
+            NK_ENUMS_VALIDATOR_LEVEL_LOG,
             "Counting from %lu to %lu",
             (index),
             (limit - 1)
@@ -84,7 +84,7 @@ P_NK_ValidatorTest()
 
     NK_ValidatorPushMessage(
         &m_validator,
-        NK_VALIDATOR_LEVEL_WARNING,
+        NK_ENUMS_VALIDATOR_LEVEL_WARNING,
         "Some message here!"
     );
 

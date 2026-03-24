@@ -3,7 +3,7 @@
  * Project is under GPL3-license, read LICENSE.md on the root.
  */
 #include "NK/Types/Containers/Any.h"
-#include "NK/Core/Memory.h"
+#include "NK/Memory.h"
 #include "NK/Redirects.h"
 
 NK_Any*

@@ -6,7 +6,7 @@
 #include "NK/Types/String/Submerged.h"
 #include "NK/Internals/Types/StringPool.h"
 #include "NK/Internals/Subsystems/GlobalStringPool.h"
-#include "NK/Core/Memory/Allocator.h"
+#include "NK/Memory.h"
 
 NK_SubmergedString*
 NK_SubmergedStringNew()
