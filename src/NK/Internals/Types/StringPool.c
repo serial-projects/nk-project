@@ -31,7 +31,7 @@ NK_StringPoolConstruct(
     /** Construct the table with the strings: */
     NK_TableConstruct(
         &pool->references,
-        NK_CONFIG_INTERNALS_STRINGPOOL_CONSTRUCT_TABLE_CAPACITY,
+        NK_CONFIG_STRING_POOL_CONSTRUCT_TABLE_CAPACITY,
         sizeof(NK_Size)
     );
 

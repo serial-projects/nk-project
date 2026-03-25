@@ -26,7 +26,7 @@ P_NK_AllocatorImplementationGetAndRequestMerged(
     }
     else
     {
-#ifndef NK_CONFIG_CORE_MEMORY_ALLOCATOR_GET_REQUEST_SKIP_MEMORY_ZEROING
+#ifndef NK_CONFIG_MEMORY_ALLOCATOR_GET_AND_REQUEST_SKIP_MEMORY_ZEROING
         block = 
             NK_RedirectCalloc(
                 sizeof(NK_U8),
@@ -225,7 +225,7 @@ NK_AllocatorImplementationResizeBlock(
     new_block->size = new_size;
     payload = ((NK_U8*)(new_block) + sizeof(NK_AllocatorBlockInformation));
 
-#ifndef NK_CONFIG_CORE_MEMORY_ALLOCATOR_RESIZE_BLOCK_SKIP_MEMORY_ZEROING
+#ifndef NK_CONFIG_MEMORY_ALLOCATOR_RESIZE_BLOCK_SKIP_MEMORY_ZEROING
     /**
      * Did we have a shrink or a growth? Because if we had, we have to guarantee
      * our NK_AllocatorImplementationResizeBlock must erase the unclean memory.

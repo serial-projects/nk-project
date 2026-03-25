@@ -145,7 +145,7 @@ NK_TableInsertOrAssign(
 
     NK_U8* new_chain;
     NK_TableChainHeader new_chain_header;
-    new_chain_header.capacity = NK_CONFIG_INTERNALS_TABLE_CHAIN_DEFAULT_SIZE;
+    new_chain_header.capacity = NK_CONFIG_TABLE_CHAIN_DEFAULT_SIZE;
     new_chain_header.explored = 0;
 
     /** NOTE: CC = Current Chain. */

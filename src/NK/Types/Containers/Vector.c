@@ -33,14 +33,14 @@ NK_VectorConstruct(
 {
     vector->element_size = element_size;
     vector->top = 0;
-    vector->capacity = NK_CONFIG_CONTAINERS_VECTOR_CONSTRUCT_DEFAULT_SIZE;
+    vector->capacity = NK_CONFIG_VECTOR_CONSTRUCT_DEFAULT_SIZE;
     vector->data = 
         (NK_U8*)(
             NK_AllocatorGet(
                 sizeof(NK_U8) * 
                 (
                     element_size *
-                    NK_CONFIG_CONTAINERS_VECTOR_CONSTRUCT_DEFAULT_SIZE
+                    NK_CONFIG_VECTOR_CONSTRUCT_DEFAULT_SIZE
                 )
             )
         );

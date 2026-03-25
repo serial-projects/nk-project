@@ -18,12 +18,12 @@ void NK_Panic(
     ...
 )
 {
-    NK_C8 buffer[NK_CONFIG_CORE_PANIC_BUFFER_SIZE];
+    NK_C8 buffer[NK_CONFIG_PANIC_BUFFER_SIZE];
     
     va_list args;
     va_start(args, format);
 
-    vsnprintf((char*)&buffer, NK_CONFIG_CORE_PANIC_BUFFER_SIZE, format, args);
+    vsnprintf((char*)&buffer, NK_CONFIG_PANIC_BUFFER_SIZE, format, args);
 
     va_end(args);
 

@@ -48,7 +48,7 @@ P_NK_ValidatorContentConstruct(
          */
         NK_DynamicStringResize(
             &message->string,
-            NK_CONFIG_CORE_VALIDATOR_PUSH_MESSAGE_BUFFER
+            NK_CONFIG_VALIDATOR_PUSH_MESSAGE_BUFFER
         );        
     }
 
@@ -286,7 +286,7 @@ NK_ValidatorPushMessage(
     /* We use the buffer that is the string ;-) */
     vsnprintf(
         (char*)(dest),
-        NK_CONFIG_CORE_VALIDATOR_PUSH_MESSAGE_BUFFER,
+        NK_CONFIG_VALIDATOR_PUSH_MESSAGE_BUFFER,
         format,
         args
     );

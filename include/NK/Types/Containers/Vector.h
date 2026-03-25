@@ -62,7 +62,7 @@ NK_VectorFree(
 /**
  * @brief Construct your vector.
  * 
- * @warning This uses `NK_CONFIG_CONTAINERS_VECTOR_CONSTRUCT_DEFAULT_SIZE` as early size.
+ * @warning This uses `NK_CONFIG_VECTOR_CONSTRUCT_DEFAULT_SIZE` as early size.
  * @warning Always use `sizeof(T)` for element_size!
  */
 void

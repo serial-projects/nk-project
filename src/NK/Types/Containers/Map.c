@@ -124,7 +124,7 @@ NK_MapInsertOrAssign(
     NK_U32 new_capacity;
 
     NK_MapChainHeader new_header;
-    new_header.capacity = NK_CONFIG_CONTAINERS_MAP_CHAIN_DEFAULT_SIZE;
+    new_header.capacity = NK_CONFIG_MAP_CHAIN_DEFAULT_SIZE;
     new_header.explored = 0;
 
     /** Set the chain: */

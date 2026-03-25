@@ -29,7 +29,7 @@ NK_DynamicStringConstruct(
     NK_DynamicString* string
 )
 {
-    string->capacity = NK_CONFIG_CONTAINERS_STRING_CONSTRUCT_DEFAULT_SIZE;
+    string->capacity = NK_CONFIG_STRING_CONSTRUCT_DEFAULT_SIZE;
     string->top = 0;
     string->buffer = 
         (NK_U8*)(

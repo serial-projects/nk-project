@@ -115,13 +115,13 @@ NK_SetInsertOrAssign(
                 NK_AllocatorGet(
                     sizeof(NK_SetChainHeader) + 
                     (
-                        NK_CONFIG_TYPES_CONTAINERS_SET_CHAIN_DEFAULT_SIZE *
+                        NK_CONFIG_SET_CHAIN_DEFAULT_SIZE *
                         (sizeof(NK_SetNodeHeader))
                     )
                 )
             );
         cc_header = (NK_SetChainHeader*)(new_chain);
-        cc_header->capacity = NK_CONFIG_TYPES_CONTAINERS_SET_CHAIN_DEFAULT_SIZE;
+        cc_header->capacity = NK_CONFIG_SET_CHAIN_DEFAULT_SIZE;
         cc_header->explored = 0;
         
         /** Add the chain: */

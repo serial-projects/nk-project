@@ -38,7 +38,7 @@ NK_QueueConstruct(
 {
     queue->head = 0;
     queue->count = 0;
-    queue->capacity = NK_CONFIG_CONTAINERS_TYPES_QUEUE_INITIALIZE_DEFAULT_SIZE;
+    queue->capacity = NK_CONFIG_QUEUE_CONSTRUCT_DEFAULT_SIZE;
     queue->element_size = element_size;
     queue->buffer =
         (NK_U8*)(
