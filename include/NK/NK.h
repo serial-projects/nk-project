@@ -5,6 +5,7 @@
 #ifndef NK_h
 #define NK_h
 
+#include "NK/IO.h"
 #include "NK/Enums.h"
 #include "NK/Core.h"
 #include "NK/Types.h"

@@ -3,7 +3,7 @@
  * Project is under GPL3-license, read LICENSE.md on the root.
  */
 
-#include "NK/Core/Reader.h"
+#include "NK/IO/Reader.h"
 #include "NK/Memory.h"
 
 NK_Reader*

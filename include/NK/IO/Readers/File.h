@@ -5,7 +5,7 @@
 #ifndef NKCoreReadersFile_h
 #define NKCoreReadersFile_h
 
-#include "NK/Core/Reader.h"
+#include "NK/IO/Reader.h"
 #include "NK/Types/Basics.h"
 
 /**
