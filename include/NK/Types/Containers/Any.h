@@ -92,6 +92,7 @@ NK_AnyGetImplementation(
 
 /**
  * @brief This automatically casts the type to whatever you want.
+ * @note You should use it as: `NK_AnyGet(<type>, any)`
  */
 #define NK_AnyGet(type, any) ((type)NK_AnyGetImplementation(any))
 
