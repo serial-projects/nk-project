@@ -82,8 +82,7 @@ NK_ReaderSetPosition(
 
 const NK_Size
 NK_ReaderGetPosition(
-    NK_Reader* reader,
-    const NK_Size position
+    NK_Reader* reader
 )
 {
     return (
