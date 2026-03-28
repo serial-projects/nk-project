@@ -95,8 +95,7 @@ NK_ReaderGetPosition(
 
 const NK_S32
 NK_ReaderGetCharacter(
-    NK_Reader* reader,
-    const NK_Size position
+    NK_Reader* reader
 )
 {
     return (
