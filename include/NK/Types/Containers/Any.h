@@ -49,9 +49,7 @@ NK_AnyFree(
  */
 void
 NK_AnyConstruct(
-    NK_Any* any,
-    const NK_Size size,
-    const NK_U8 type
+    NK_Any* any
 );
 
 /**
@@ -71,7 +69,8 @@ NK_AnyDestruct(
 void
 NK_AnyCopy(
     NK_Any* any,
-    const void* source
+    const void* source,
+    const NK_Size size
 );
 
 /**
@@ -80,6 +79,15 @@ NK_AnyCopy(
 const NK_U8
 NK_AnyGetType(
     NK_Any* any
+);
+
+/**
+ * @brief Sets the type.
+ */
+void
+NK_AnySetType(
+    NK_Any* any,
+    const NK_U8 type
 );
 
 /**
