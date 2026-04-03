@@ -216,7 +216,7 @@ NK_DynamicStringClear(
     NK_RedirectMemset(
         string->buffer,
         0,
-        sizeof(NK_C8) * (string->capacity + 1)
+        sizeof(NK_C8) * (string->capacity)
     );
 }
 
