@@ -24,7 +24,7 @@ NK_RunCMAKEToConstructDebugVersion(){
             # --debug-find                            \
             # --trace-expand
         [[ $? -eq 0 ]] && cmake --build . -v -j10
-        [[ $? -eq 0 ]] && ctest . --extra-verbose --stop-on-failure --progress
+        [[ $? -eq 0 ]] && ctest . --stop-on-failure --progress --extra-verbose
     cd ..
 }
 

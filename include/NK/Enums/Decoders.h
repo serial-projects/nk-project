@@ -2,11 +2,9 @@
  * Ruka Raposa Project by Ruka Raposa Team & Contribuitors.
  * Project is under GPL3-license, read LICENSE.md on the root.
  */
-#ifndef NKEnums_h
-#define NKEnums_h
+#ifndef NKEnumsDecoders_h
+#define NKEnumsDecoders_h
 
-#include "NK/Enums/Diagnostics.h"
-#include "NK/Enums/Task.h"
-#include "NK/Enums/Decoders.h"
+#include "NK/Enums/Decoders/ArgumentParser.h"
 
 #endif
