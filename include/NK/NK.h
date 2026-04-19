@@ -13,6 +13,7 @@
 #include "NK/Redirects.h"
 #include "NK/Memory.h"
 #include "NK/Diagnostics.h"
+#include "NK/Decoders.h"
 
 /**
  * @brief Initialize the NK subsystems that are necessary.

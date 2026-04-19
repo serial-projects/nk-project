@@ -7,6 +7,7 @@
 #include "NK/Core/Panic.h"
 #include "NK/Memory.h"
 #include "NK/Support.h"
+#include "NK/Enums.h"
 
 NK_ArgumentParser*
 NK_ArgumentParserNew()
@@ -42,6 +43,8 @@ NK_ArgumentParserConstruct(
     arg_parser->args_length = args_counter;
     arg_parser->args_source = args_source;
     arg_parser->userdata = userdata;
+    arg_parser->state = NK_ENUMS_ARGUMENT_PARSER_STATE_RUNNING;
+    arg_parser->error_register = NK_ENUMS_ARGUMENT_PARSER_ERROR_CODE_NONE;
 
     /**
      * Construct the logics.
@@ -134,4 +137,98 @@ NK_ArgumentParserAddLink(
     /** Create an new submerged string: */
     NK_SubmergedStringConstruct(&vessel, action);
     NK_MapInsertOrAssign(&arg_parser->links, key, (void*)(&vessel));
+}
+
+const NK_C8*
+NK_ArgumentParserPull(
+    NK_ArgumentParser* arg_parser
+)
+{
+    NK_C8* param = (
+        (arg_parser->args_index > arg_parser->args_length)
+        ? NULL
+        : arg_parser->args_source[arg_parser->args_index]
+    );
+    /** 
+     * NOTE: We don't care if we are out the list and NULL was returned, we
+     * check for it every time anyways.
+     */
+    arg_parser->args_index++;
+    return param;
+}
+
+static
+void
+P_NK_ArgumentParserPerform(
+    NK_ArgumentParser* arg_parser,
+    const NK_C8* argument
+)
+{
+    /**
+     * NOTE: We can assume this function will always have a valid argument,
+     * since we did check up before anyway on NK_ArgumentParserStep, remember?
+     */
+    NK_SubmergedString* maybe_action = 
+        (NK_SubmergedString*)(NK_MapGet(&arg_parser->links, argument));
+
+    NK_ArgumentParserActionFunction maybe_function;
+    if(maybe_action == NULL)
+    {
+        arg_parser->state =
+            NK_ENUMS_ARGUMENT_PARSER_STATE_DIED;
+        arg_parser->error_register = 
+            NK_ENUMS_ARGUMENT_PARSER_ERROR_NO_LINK_FOUND;
+        return;
+    }
+
+    /** We continue: */
+    maybe_function = 
+        (NK_ArgumentParserActionFunction)(
+            NK_MapGet(
+                &arg_parser->actions,
+                NK_SubmergedStringGet(maybe_action)
+            )
+        );
+    if(maybe_function == NULL)
+    {
+        arg_parser->state =
+            NK_ENUMS_ARGUMENT_PARSER_STATE_DIED;
+        arg_parser->error_register =
+            NK_ENUMS_ARGUMENT_PARSER_ERROR_NO_ACTION_FOUND;
+        return;
+    }
+    
+    /** In this very case, we have an valid argument: */
+    const NK_Result should_continue = maybe_function(arg_parser);
+    if(!should_continue)
+    {
+        arg_parser->state =
+            NK_ENUMS_ARGUMENT_PARSER_STATE_DIED;
+        arg_parser->error_register =
+            NK_ENUMS_ARGUMENT_PARSER_ERROR_USER_TRIGGER;
+    }
+}
+
+NK_U8
+NK_ArgumentParserStep(
+    NK_ArgumentParser* arg_parser
+)
+{
+    if(arg_parser->state == NK_ENUMS_ARGUMENT_PARSER_STATE_RUNNING)
+    {
+        /** Can we pull from the list? */
+        if(arg_parser->args_index > arg_parser->args_length)
+        {
+            arg_parser->state = NK_ENUMS_ARGUMENT_PARSER_STATE_FINISHED;
+        }
+        else
+        {
+            /** If we have, we can pull from the list: */
+            P_NK_ArgumentParserPerform(
+                arg_parser,
+                NK_ArgumentParserPull(arg_parser)
+            );
+        }
+    }
+    return arg_parser->state;
 }

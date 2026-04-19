@@ -15,7 +15,7 @@ typedef struct NK_ArgumentParser
     /**
      * @brief This is the equivalent of the `char **argv` parameters.
      */
-    const NK_U8** args_source;
+    NK_U8** args_source;
 
     /**
      * @brief This is how far we are parsing the arguments.
@@ -44,6 +44,16 @@ typedef struct NK_ArgumentParser
      * @brief This are the links, which points to actions.
      */
     NK_Map links;
+
+    /**
+     * @brief Contains the argument parser state.
+     */
+    NK_U8 state;
+
+    /**
+     * @brief Contains the argument parser error handler.
+     */
+    NK_U8 error_register;
 } NK_ArgumentParser;
 
 /**
@@ -113,6 +123,24 @@ NK_ArgumentParserAddLink(
     NK_ArgumentParser* arg_parser,
     const NK_C8* key,
     const NK_C8* action
+);
+
+/**
+ * @brief This will pull from the list (if possible), an parameter.
+ * 
+ * @warning This function returns null when no parameter could be adquired.
+ */
+const NK_C8*
+NK_ArgumentParserPull(
+    NK_ArgumentParser* arg_parser
+);
+
+/**
+ * @brief Parse the arguments, returns the state.
+ */
+NK_U8
+NK_ArgumentParserStep(
+    NK_ArgumentParser* arg_parser
 );
 
 #endif
