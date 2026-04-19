@@ -78,7 +78,7 @@ if(NK_ENABLE_TESTS)
         "${CMAKE_CURRENT_SOURCE_DIR}/tests/Base/NKTableInsertion.c" "NK_TableInsertionTest"
         "${CMAKE_CURRENT_SOURCE_DIR}/tests/Base/NKValidator.c" "NK_ValidatorTest"
         "${CMAKE_CURRENT_SOURCE_DIR}/tests/Base/NKSet.c" "NK_SetTest"
-        "${CMAKE_CURRENT_SOURCE_DIR}/Tests/Base/NKArgumentParser.c" "NK_ArgumentParser"
+        "${CMAKE_CURRENT_SOURCE_DIR}/tests/Base/NKArgumentParser.c" "NK_ArgumentParser"
     )
 
     # Add an interface for the tests:
