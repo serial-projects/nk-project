@@ -155,7 +155,7 @@ main(
     NK_Init();
 
     /** Do some stress ;-) */
-    P_main_PerformStressTest(100000);
+    P_main_PerformStressTest(1000000);
 
     NK_Quit();
     return 0;

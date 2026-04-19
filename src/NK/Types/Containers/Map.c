@@ -6,6 +6,7 @@
 #include "NK/Types/Containers/Map.h"
 #include "NK/Memory.h"
 #include "NK/Config.h"
+#include "NK/Core.h"
 
 NK_Map*
 NK_MapNew()
@@ -104,30 +105,43 @@ NK_MapDestruct(
 
 /** InsertOrAssign, Get & Remove: */
 
-NK_MapNodeHeader*
-NK_MapInsertOrAssign(
+/**
+ * @brief This contains the return of the `P_NK_MapAdquireNode` function.
+ */
+struct P_NK_MapAdquireNodeReturn
+{
+    NK_MapNodeHeader* adquired_node;
+    NK_Boolean newly;
+};
+
+/**
+ * @brief This function will adquire an space for the node to be inserted no
+ * matter what actually.
+ */
+static
+struct P_NK_MapAdquireNodeReturn
+P_NK_MapAdquireNode(
     NK_Map* map,
-    const NK_C8* key,
-    void* src
+    const NK_C8* key
 )
 {
-    /** Hash the string: */
-    NK_SubmergedString s_key;
-    NK_SubmergedStringConstruct(&s_key, key);
+    struct P_NK_MapAdquireNodeReturn operation_result;
+    operation_result.newly = true;
+    operation_result.adquired_node = NULL;
 
-    /** Get the chain we will be looking for: */
+    /** We hash the string here: */
+    NK_SubmergedString s_key; NK_SubmergedStringConstruct(&s_key, key);
     NK_U64 look_chain = NK_SubmergedStringGetHash(&s_key) % map->capacity;
     NK_U8* chain = map->chains[look_chain];
 
-    /** For new chain and resizing: */
+    /** In case we need to create another chain: */
     NK_U8* new_chain;
     NK_U32 new_capacity;
-
     NK_MapChainHeader new_header;
     new_header.capacity = NK_CONFIG_MAP_CHAIN_DEFAULT_SIZE;
     new_header.explored = 0;
 
-    /** Set the chain: */
+    /** Set the Explorers: */
     NK_MapChainHeader* cc_header;
     NK_MapNodeHeader* cc_node_header;
     NK_MapNodeHeader* empty_spot = NULL;
@@ -148,15 +162,15 @@ NK_MapInsertOrAssign(
                 )
             );
         map->chains[look_chain] = new_chain;
-        chain = new_chain;
-        cc_header = (NK_MapChainHeader*)(chain);
-        *cc_header = new_header;
+        chain       = new_chain;
+        cc_header   = (NK_MapChainHeader*)(chain);
+        *cc_header  = new_header;
     }
     else
     {
         cc_header = (NK_MapChainHeader*)(chain);
     }
-
+    
     index = 0;
     for(index; index < cc_header->explored; index++)
     {
@@ -170,21 +184,11 @@ NK_MapInsertOrAssign(
             );
         if(NK_SubmergedStringEqual(&cc_node_header->key, &s_key))
         {
-            /** Assignment: */
-            data =
-                (NK_U8*)(
-                    (NK_U8*)(cc_node_header) +
-                    sizeof(NK_MapNodeHeader)
-                );
-            NK_RedirectMemcpy(
-                data,
-                src,
-                map->element_size
-            );
-
-            /**
-             * NOTE: Here we don't let the s_key live for more than necessary:
+            /** 
+             * NOTE: In this case, the operation didn't land on a newly created
+             * node. We actually landed in an old node that wasn't created.
              */
+            operation_result.newly = false;
             NK_SubmergedStringDestruct(&s_key);
             goto assignment_ending;
         }
@@ -202,16 +206,6 @@ NK_MapInsertOrAssign(
         /** NOTE: In this case, we got an forgotten spot: */
         cc_node_header = empty_spot;
         cc_node_header->key = s_key;
-        data = 
-            (NK_U8*)(
-                (NK_U8*)(cc_node_header) + 
-                sizeof(NK_MapNodeHeader)
-            );
-        NK_RedirectMemcpy(
-            data,
-            src,
-            map->element_size
-        );
         goto empty_spot_found_ending;
     }
 
@@ -252,9 +246,30 @@ NK_MapInsertOrAssign(
             )
         );
     cc_node_header->key = s_key;
-    data =
-        (NK_U8*)(
-            (NK_U8*)(cc_node_header) + 
+    cc_header->explored++;
+
+empty_spot_found_ending:
+    map->count++;
+
+    /** NOTE: During an assignment, we don't have an map->count increment! */
+assignment_ending:
+    operation_result.adquired_node = cc_node_header;
+    return operation_result;
+}
+
+NK_MapNodeHeader*
+NK_MapInsertOrAssign(
+    NK_Map* map,
+    const NK_C8* key,
+    void* src
+)
+{
+    struct P_NK_MapAdquireNodeReturn result_adquire_node = 
+        P_NK_MapAdquireNode(map, key);
+    /** NOTE: Here, we don't actually care if it was new or not. */
+    void* data = 
+        (void*)(
+            ((NK_U8*)(result_adquire_node.adquired_node)) + 
             sizeof(NK_MapNodeHeader)
         );
     NK_RedirectMemcpy(
@@ -262,14 +277,42 @@ NK_MapInsertOrAssign(
         src,
         map->element_size
     );
-    cc_header->explored++;
+    return result_adquire_node.adquired_node;
+}
 
-empty_spot_found_ending:
-    map->count++;
-    
-    /** NOTE: During an assignment, we don't have an map->count increment! */
-assignment_ending:
-    return cc_node_header;
+NK_MapNodeHeader*
+NK_MapInsert(
+    NK_Map* map,
+    const NK_C8* key,
+    void* src
+)
+{
+    struct P_NK_MapAdquireNodeReturn result_adquire_node = 
+        P_NK_MapAdquireNode(map, key);
+    void* data = 
+        (void*)(
+            ((NK_U8*)(result_adquire_node.adquired_node)) + 
+            sizeof(NK_MapNodeHeader)
+        );
+    /** NOTE: Here, we only write then the value is new! */
+    if(result_adquire_node.newly)
+    {
+        NK_RedirectMemcpy(
+            data,
+            src,
+            map->element_size
+        );
+    }
+    else
+    {
+        NK_Panic(
+            "%s: Impossible to write key = %s, on NK_Map = %p, already exists!",
+            NK_CURRENT_WHERE,
+            key,
+            map
+        );
+    }
+    return result_adquire_node.adquired_node;
 }
 
 void*
