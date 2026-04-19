@@ -131,6 +131,15 @@ NK_MapAt(
 );
 
 /**
+ * @brief If you have an header, this will automatically return the data.
+ */
+void*
+NK_MapGetFromNodeHeader(
+    NK_Map* map,
+    NK_MapNodeHeader* header
+);
+
+/**
  * @brief This removes an key from the map.
  */
 NK_Result

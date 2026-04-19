@@ -379,6 +379,17 @@ NK_MapAt(
     );
 }
 
+void*
+NK_MapGetFromNodeHeader(
+    NK_Map* map,
+    NK_MapNodeHeader* header
+)
+{
+    return (void*)(
+        (NK_U8*)(header) + sizeof(NK_MapNodeHeader)
+    );
+}
+
 NK_Result
 NK_MapRemove(
     NK_Map* map,
