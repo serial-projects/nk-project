@@ -80,10 +80,28 @@ NK_MapDestruct(
 /** InsertOrAssign, Get, At & Remove: */
 
 /**
- * @brief Insert or Assign an element on the dictionary.
+ * @brief Insert or Assign an element on the map.
  */
 NK_MapNodeHeader*
 NK_MapInsertOrAssign(
+    NK_Map* map,
+    const NK_C8* key,
+    void* src
+);
+
+/**
+ * @brief Insert an element on the map.
+ * 
+ * @warning If the element already exists on the map, we don't insert or
+ * replace it, if you want that behavior, you can use `NK_MapInsertOrAssign`
+ * function, `NK_MapInsert` is just for inserting.
+ * 
+ * @warning Trying to insert elements that already exists will trigger panic!
+ * 
+ * @returns If the element was inserted.
+ */
+NK_MapNodeHeader*
+NK_MapInsert(
     NK_Map* map,
     const NK_C8* key,
     void* src
@@ -110,6 +128,15 @@ NK_MapNodeHeader*
 NK_MapAt(
     NK_Map* map,
     const NK_C8* key
+);
+
+/**
+ * @brief If you have an header, this will automatically return the data.
+ */
+void*
+NK_MapGetFromNodeHeader(
+    NK_Map* map,
+    NK_MapNodeHeader* header
 );
 
 /**

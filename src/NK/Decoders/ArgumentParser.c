@@ -113,30 +113,13 @@ NK_ArgumentParserAddLink(
     const NK_C8* action
 )
 {
-    /** 
-     * TODO: This one is a bit more `unsafe`, since the user can put an value
-     * that is already present on the memory, in this case, we can't do much
-     * but use `Insert` and if the value was not inserted, then we panic.
-     * 
-     * But the problem is that `NK_Map` has no `NK_MapInsert` only function,
-     * which means we will do `NK_MapGet` and if we find one, we panic, if
-     * not, then we continue to add it. This is very not efficient, but bear
-     * with me, later we do something more interesting.
-     */
     NK_SubmergedString vessel;
-    void* maybe_link = NK_MapGet(&arg_parser->links, key);
-    if(NK_SUPPORT_UNLIKELY(maybe_link != NULL))
-    {
-        NK_Panic(
-            "%s: Unable to add %s as link (already in)",
-            NK_CURRENT_WHERE,
-            key
-        );
-        return;
-    }
-    /** Create an new submerged string: */
     NK_SubmergedStringConstruct(&vessel, action);
-    NK_MapInsertOrAssign(&arg_parser->links, key, (void*)(&vessel));
+    NK_MapInsert(
+        &arg_parser->links,
+        key,
+        (void*)(&vessel)
+    );
 }
 
 const NK_C8*
