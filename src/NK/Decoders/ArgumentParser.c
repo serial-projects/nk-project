@@ -31,15 +31,15 @@ void
 NK_ArgumentParserConstruct(
     NK_ArgumentParser* arg_parser,
     const NK_Size args_counter,
-    const NK_U8** args_source,
-    const void* userdata
+    const NK_C8** args_source,
+    void* userdata
 )
 {
     /**
      * NOTE: We want to skip the first index, which is the file we are running
      * anyways.
      */
-    arg_parser->args_index = 1;
+    arg_parser->args_index = 0;
     arg_parser->args_length = args_counter;
     arg_parser->args_source = args_source;
     arg_parser->userdata = userdata;
@@ -103,7 +103,7 @@ NK_ArgumentParserAddAction(
 )
 {
     /** We copy this to the map, we don't mind replaces. */
-    NK_MapInsertOrAssign(&arg_parser->actions, key, &function);
+    NK_MapInsertOrAssign(&arg_parser->actions, key, (const void*)(&function));
 }
 
 void
@@ -145,7 +145,7 @@ NK_ArgumentParserPull(
 )
 {
     NK_C8* param = (
-        (arg_parser->args_index > arg_parser->args_length)
+        (arg_parser->args_index >= arg_parser->args_length)
         ? NULL
         : arg_parser->args_source[arg_parser->args_index]
     );
@@ -171,7 +171,7 @@ P_NK_ArgumentParserPerform(
     NK_SubmergedString* maybe_action = 
         (NK_SubmergedString*)(NK_MapGet(&arg_parser->links, argument));
 
-    NK_ArgumentParserActionFunction maybe_function;
+    NK_ArgumentParserActionFunction* maybe_function;
     if(maybe_action == NULL)
     {
         arg_parser->state =
@@ -183,7 +183,7 @@ P_NK_ArgumentParserPerform(
 
     /** We continue: */
     maybe_function = 
-        (NK_ArgumentParserActionFunction)(
+        (NK_ArgumentParserActionFunction*)(
             NK_MapGet(
                 &arg_parser->actions,
                 NK_SubmergedStringGet(maybe_action)
@@ -199,7 +199,7 @@ P_NK_ArgumentParserPerform(
     }
     
     /** In this very case, we have an valid argument: */
-    const NK_Result should_continue = maybe_function(arg_parser);
+    const NK_Result should_continue = (*maybe_function)(arg_parser);
     if(!should_continue)
     {
         arg_parser->state =
@@ -217,7 +217,7 @@ NK_ArgumentParserStep(
     if(arg_parser->state == NK_ENUMS_ARGUMENT_PARSER_STATE_RUNNING)
     {
         /** Can we pull from the list? */
-        if(arg_parser->args_index > arg_parser->args_length)
+        if(arg_parser->args_index >= arg_parser->args_length)
         {
             arg_parser->state = NK_ENUMS_ARGUMENT_PARSER_STATE_FINISHED;
         }
@@ -231,4 +231,20 @@ NK_ArgumentParserStep(
         }
     }
     return arg_parser->state;
+}
+
+const NK_U8
+NK_ArgumentParserGetState(
+    NK_ArgumentParser* arg_parser
+)
+{
+    return arg_parser->state;
+}
+
+const NK_U8
+NK_ArgumentParserGetErrorRegister(
+    NK_ArgumentParser* arg_parser
+)
+{
+    return arg_parser->error_register;
 }

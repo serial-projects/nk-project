@@ -15,7 +15,7 @@ typedef struct NK_ArgumentParser
     /**
      * @brief This is the equivalent of the `char **argv` parameters.
      */
-    NK_U8** args_source;
+    const NK_C8** args_source;
 
     /**
      * @brief This is how far we are parsing the arguments.
@@ -93,8 +93,8 @@ void
 NK_ArgumentParserConstruct(
     NK_ArgumentParser* arg_parser,
     const NK_Size args_counter,
-    const NK_U8** args_source,
-    const void* userdata
+    const NK_C8** args_source,
+    void* userdata
 );
 
 /**
@@ -140,6 +140,22 @@ NK_ArgumentParserPull(
  */
 NK_U8
 NK_ArgumentParserStep(
+    NK_ArgumentParser* arg_parser
+);
+
+/**
+ * @brief Get the current state of the parser.
+ */
+const NK_U8
+NK_ArgumentParserGetState(
+    NK_ArgumentParser* arg_parser
+);
+
+/**
+ * @brief Get the current error register.
+ */
+const NK_U8
+NK_ArgumentParserGetErrorRegister(
     NK_ArgumentParser* arg_parser
 );
 
