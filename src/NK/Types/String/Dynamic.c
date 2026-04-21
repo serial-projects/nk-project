@@ -218,6 +218,7 @@ NK_DynamicStringClear(
         0,
         sizeof(NK_C8) * (string->capacity)
     );
+    string->top = 0;
 }
 
 void
