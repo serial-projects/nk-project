@@ -6,5 +6,6 @@
 #define NKDiagnostics_h
 
 #include "NK/Diagnostics/Validator.h"
+#include "NK/Diagnostics/ErrorHandler.h"
 
 #endif
