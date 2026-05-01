@@ -38,6 +38,10 @@ NK_SubmergedStringFree(
 
 /**
  * @brief Construct the string.
+ * 
+ * @note If you want to have an placeholder `NK_SubmergedString` and not
+ * initialize right away, you can use `src` as `NULL` and the handler will be
+ * assigned to `0` which means nothing to the pool.
  */
 void
 NK_SubmergedStringConstruct(

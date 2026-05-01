@@ -30,11 +30,18 @@ NK_SubmergedStringConstruct(
     const NK_C8* src
 )
 {
-    string->handler = 
-        NK_StringPoolInsertOrFindMatching(
-            &NK_GlobalStringPool,
-            src
-        );
+    /** 
+     * NOTE: If we have an src that is NULL, then the string is just being
+     * used as a placeholder.
+     */
+    if(NK_SUPPORT_LIKELY(src != NULL))
+    {
+        string->handler = 
+            NK_StringPoolInsertOrFindMatching(
+                &NK_GlobalStringPool,
+                src
+            );
+    }
 }
 
 void
