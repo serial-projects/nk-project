@@ -36,4 +36,7 @@
 /** NK/Types/Containers/Set.c: */
 #define NK_CONFIG_SET_CHAIN_DEFAULT_SIZE                                        10
 
+/** NK/Diagnostics/ErrorHandler.c: */
+#define NK_CONFIG_ERROR_HANDLER_BUFFER_SIZE                                     128
+
 #endif
