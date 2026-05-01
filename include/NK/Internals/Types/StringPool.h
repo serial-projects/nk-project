@@ -9,6 +9,10 @@
 #include "NK/Types/Containers/Vector.h"
 #include "NK/Types/Basics.h"
 
+/**
+ * @brief The '0' string is always the string with no ID, which means the string
+ * is NULL or was degraded (and doesn't exist on the pool anymore).
+ */
 #define NK_STRING_POOL_NO_ID    0
 
 /**
