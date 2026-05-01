@@ -126,7 +126,7 @@ P_NK_FileReaderUnitGetCharacterImplementation(
  * @brief This is the main table for the buffer to use.
  */
 static
-const NK_ReaderInterfaceFunctions
+NK_ReaderInterfaceFunctions
 NK_FileReaderUnitImplementations =
 {
     (NK_ReaderInterfaceOpenFunction)(

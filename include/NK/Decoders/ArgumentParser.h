@@ -112,7 +112,7 @@ void
 NK_ArgumentParserAddAction(
     NK_ArgumentParser* arg_parser,
     const NK_C8* key,
-    const NK_ArgumentParserActionFunction function
+    NK_ArgumentParserActionFunction function
 );
 
 /**

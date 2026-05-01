@@ -99,11 +99,15 @@ void
 NK_ArgumentParserAddAction(
     NK_ArgumentParser* arg_parser,
     const NK_C8* key,
-    const NK_ArgumentParserActionFunction function
+    NK_ArgumentParserActionFunction function
 )
 {
     /** We copy this to the map, we don't mind replaces. */
-    NK_MapInsertOrAssign(&arg_parser->actions, key, (const void*)(&function));
+    NK_MapInsertOrAssign(
+        &arg_parser->actions,
+        key,
+        (void*)(&function)
+    );
 }
 
 void
@@ -127,7 +131,7 @@ NK_ArgumentParserPull(
     NK_ArgumentParser* arg_parser
 )
 {
-    NK_C8* param = (
+    const NK_C8* param = (
         (arg_parser->args_index >= arg_parser->args_length)
         ? NULL
         : arg_parser->args_source[arg_parser->args_index]
