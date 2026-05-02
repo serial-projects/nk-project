@@ -390,6 +390,14 @@ NK_MapGetFromNodeHeader(
     );
 }
 
+const NK_Size
+NK_MapSize(
+    NK_Map* map
+)
+{
+    return map->count;
+}
+
 NK_Result
 NK_MapRemove(
     NK_Map* map,

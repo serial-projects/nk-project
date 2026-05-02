@@ -149,6 +149,14 @@ NK_MapRemove(
 );
 
 /**
+ * @brief This gets the amount of elements.
+ */
+const NK_Size
+NK_MapSize(
+    NK_Map* map
+);
+
+/**
  * @brief This is the default iterator for `NK_Map`
  */
 typedef
