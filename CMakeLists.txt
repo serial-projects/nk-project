@@ -72,6 +72,7 @@ if(NK_ENABLE_TESTS)
 
     set(rr_tests
         "${CMAKE_CURRENT_SOURCE_DIR}/tests/Base/NKInit.c" "NK_InitTest"
+        "${CMAKE_CURRENT_SOURCE_DIR}/tests/Base/NKDynamicStrings.c" "NK_DynamicStringsTest"
         "${CMAKE_CURRENT_SOURCE_DIR}/tests/Base/NKMapInsertion.c" "NK_MapInsertionTest"
         "${CMAKE_CURRENT_SOURCE_DIR}/tests/Base/NKMapIsStringDeleting.c" "NK_MapIsStringDeletingTest"
         "${CMAKE_CURRENT_SOURCE_DIR}/tests/Base/NKSubmergedStrings.c" "NK_SubmergedStringTest"
