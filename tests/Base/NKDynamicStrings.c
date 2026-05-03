@@ -16,17 +16,27 @@ Test(
     NK_DynamicString m_string;
     NK_DynamicStringConstruct(&m_string);
 
-    for(NK_C8 c='a'; c>='z'; c++)
+    NK_C8 c='a';
+    NK_U8 index=0;
+
+    for(
+        index;
+        index <= 10;
+        index++
+    )
     {
-        NK_DynamicStringPush(
-            &m_string,
-            c
-        );
+        c='a';
+        for(c; c <= 'z'; c++)
+        {
+            NK_DynamicStringPush(
+                &m_string,
+                c
+            );
+        }
     }
 
     /** PRINT: */
-    printf("%s\n", NK_DynamicStringGetBuffer(&m_string));
-
+    printf("GOT: %s\n", NK_DynamicStringGetBuffer(&m_string));
     NK_DynamicStringDestruct(&m_string);
 }
 
