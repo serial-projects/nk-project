@@ -6,5 +6,6 @@
 #define NKCore_h
 
 #include "NK/Core/Panic.h"
+#include "NK/Core/Crash.h"
 
 #endif
