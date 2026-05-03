@@ -9,11 +9,11 @@
 NK_DynamicString*
 NK_DynamicStringNew()
 {
-    NK_DynamicString* new_string = 
-        (NK_DynamicString*)(
-            NK_AllocatorGet(sizeof(NK_DynamicString))
-        );
-    return new_string;
+    NK_DynamicString* new_dynamic_string = 
+        (NK_DynamicString*)(NK_AllocatorGet(
+            sizeof(NK_DynamicString)
+        ));
+    return new_dynamic_string;
 }
 
 void
@@ -31,12 +31,22 @@ NK_DynamicStringConstruct(
 {
     string->capacity = NK_CONFIG_STRING_CONSTRUCT_DEFAULT_SIZE;
     string->top = 0;
+    /** Create the buffer, the layout is: buffer + end null pointer */
     string->buffer = 
-        (NK_U8*)(
+        (NK_C8*)(
             NK_AllocatorGet(
-                sizeof(NK_C8) * string->capacity
+                (sizeof(NK_C8) * string->capacity) + 
+                (sizeof(NK_C8) * 1)
             )
         );
+    NK_RedirectMemset(
+        string->buffer,
+        0,
+        (
+            (sizeof(NK_C8) * string->capacity) + 
+            (sizeof(NK_C8) * 1)
+        )
+    );
 }
 
 void
@@ -44,7 +54,20 @@ NK_DynamicStringDestruct(
     NK_DynamicString* string
 )
 {
+    /** 
+     * NOTE: Safety, we don't want any dynamic data to be left behind since
+     * it might contain sensitive data.
+     */
+    NK_RedirectMemset(
+        string->buffer,
+        0,
+        (
+            (sizeof(NK_C8) * string->capacity) + 
+            (sizeof(NK_C8) * 1)
+        )
+    );
     NK_AllocatorFree(string->buffer);
+    string->buffer = NULL;
     string->capacity = 0;
     string->top = 0;
 }
@@ -55,31 +78,46 @@ NK_DynamicStringResize(
     const NK_Size new_size
 )
 {
-    NK_U8* new_buffer =
-        (NK_U8*)(
-            NK_AllocatorResizeBlock(
-                string->buffer,
-                (sizeof(NK_C8) * (new_size + 1))
-            )
-        );
-    /** NOTE: We clean the allocated memory. */
-    if(new_size > string->capacity)
+    NK_Size size_delta = 0;
+    NK_C8* new_buffer = NULL;
+
+    if(NK_SUPPORT_UNLIKELY(new_size == string->capacity))
     {
-        NK_RedirectMemset(
-            (NK_C8*)(new_buffer) + 
-            (
-                (string->capacity) *
-                sizeof(NK_C8)
-            ),
-            0,
-            sizeof(NK_C8) * (new_size - string->capacity)
-        );
+        goto same_size_ending;
     }
 
-    /** NOTE: reset the '\0' to the end: */
-    string->top = new_size > string->top ? string->top : new_size;
+    new_buffer = 
+        (NK_C8*)(
+            NK_AllocatorResizeBlock(
+                string->buffer,
+                (
+                    (sizeof(NK_C8) * new_size) + 
+                    (sizeof(NK_C8) * 1)
+                )
+            )
+        );
+    /**
+     * NOTE: In case we have upped the capacity, which is always anyway, we
+     * clean the dirt that comes with realloc.
+     */
+    if(new_size > string->capacity)
+    {
+        size_delta = new_size - string->capacity;
+        NK_RedirectMemset(
+            (void*)( (NK_U8*)(new_buffer) + string->capacity ),
+            0,
+            (
+                (sizeof(NK_C8) * size_delta) + 
+                (sizeof(NK_C8) * 1)
+            )
+        );
+    }
+    /** We stick to the top: */
+    string->top = new_size > string->capacity ? string->top : new_size;
     string->capacity = new_size;
     string->buffer = new_buffer;
+
+    same_size_ending:
 }
 
 void
@@ -92,7 +130,7 @@ NK_DynamicStringPush(
     {
         NK_DynamicStringResize(
             string,
-            1 + (string->capacity + (string->capacity * 2))
+            1 + (string->capacity * 2)
         );
     }
     string->buffer[string->top] = character;
@@ -108,6 +146,7 @@ NK_DynamicStringPop(
     NK_C8 value = 0;
     if(string->top > 0)
     {
+        /** NOTE: We need to decrement before doing anything! */
         string->top--;
         value = string->buffer[string->top];
         string->buffer[string->top] = 0;
@@ -127,7 +166,6 @@ NK_DynamicStringGet(
         : 0
     );
 }
-
 NK_C8*
 NK_DynamicStringAt(
     NK_DynamicString* string,
@@ -136,7 +174,7 @@ NK_DynamicStringAt(
 {
     return (
         index <= string->capacity
-        ? (NK_C8*)&string->buffer[index]
+        ? (NK_C8*)(&string->buffer[index])
         : NULL
     );
 }
@@ -166,7 +204,11 @@ NK_DynamicStringEqual(
     NK_Result good = true;
     if(NK_DynamicStringSize(string) == NK_DynamicStringSize(source))
     {
-        /** NOTE: Then we compare the strings: */
+        /**
+         * NOTE: We will continue to use the `strncmp` since this implementation
+         * from the OS might provide things like SSE2 acceleration and other
+         * better tricks.
+         */
         good =
             (
                 NK_RedirectStrncmp(
@@ -281,4 +323,48 @@ NK_DynamicStringDuplicate(
     );
     
     string->top = new_size;
+}
+
+/** 
+ * This function will include stdio.h, but this is only present on the debug
+ * version of `NK`, on the future, this functions will be hidden for good.
+ */
+#include <stdio.h>
+
+void
+NK_DynamicStringDebug(
+    NK_DynamicString* string
+)
+{
+    NK_Size index=0;
+    printf(
+        "%s: string->top = %d, string->capacity = %d, buffer = %p\n",
+        NK_CURRENT_WHERE,
+        string->top,
+        string->capacity,
+        string->buffer
+    );
+    for(
+        index;
+        index <= string->capacity;
+        index++
+    )
+    {
+        printf(
+            "%s: [index = %d] %c/%d ",
+            NK_CURRENT_WHERE,
+            index,
+            (NK_C8)(string->buffer[index]),
+            (NK_S32)(string->buffer[index])
+        );
+        if(index == string->top)
+        {
+            printf("[TOP] ");
+        }
+        if(index == string->capacity)
+        {
+            printf("[CAPACITY]");
+        }
+        printf("\n");
+    }
 }

@@ -177,4 +177,12 @@ NK_DynamicStringDuplicate(
     NK_Size end
 );
 
+/**
+ * @brief Show some debug information.
+ */
+void
+NK_DynamicStringDebug(
+    NK_DynamicString* string
+);
+
 #endif
