@@ -42,6 +42,11 @@ NK_SubmergedStringConstruct(
                 src
             );
     }
+    else
+    {
+        /** NOTE: Construct even on NULL. */
+        string->handler = 0;
+    }
 }
 
 void
