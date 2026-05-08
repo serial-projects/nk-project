@@ -72,3 +72,23 @@ NK_ErrorHandlerHold(
     NK_SubmergedStringSetImmediate(&handler->log, (const NK_C8*)(&rtb));
     handler->code = code;
 }
+
+const NK_U64
+NK_ErrorHandlerGetErrorCode(
+    NK_ErrorHandler* handler
+)
+{
+    return handler->code;
+}
+
+const NK_C8*
+NK_ErrorHandlerGetErrorMessage(
+    NK_ErrorHandler* handler
+)
+{
+    return (
+        (handler->code == 0) || (NK_SubmergedStringIsForgotten(&handler->log))
+        ? "N/A"
+        : NK_SubmergedStringGet(&handler->log)
+    );
+}

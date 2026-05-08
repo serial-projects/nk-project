@@ -72,4 +72,22 @@ NK_ErrorHandlerHold(
     ...
 );
 
+/**
+ * @brief Quickly gets the error code.
+ */
+const NK_U64
+NK_ErrorHandlerGetErrorCode(
+    NK_ErrorHandler* handler
+);
+
+/**
+ * @brief Quickly gets the error log.
+ * 
+ * @warning If the string is forgotten, then the error is "N/A"
+ */
+const NK_C8*
+NK_ErrorHandlerGetErrorMessage(
+    NK_ErrorHandler* handler
+);
+
 #endif
