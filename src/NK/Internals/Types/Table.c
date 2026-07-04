@@ -120,7 +120,7 @@ NK_TableSize(
 NK_TableChainNodeHeader*
 NK_TableInsertOrAssign(
     NK_Table* table,
-    const NK_U8* key,
+    const NK_C8* key,
     void* src
 )
 {
@@ -138,27 +138,34 @@ NK_TableInsertOrAssign(
      */
 
     /** Hash the value: */
-    NK_Size key_length = NK_RedirectStrlen(key);
-    NK_U64 hashed_value = NK_Hash(key);
-    NK_U64 look_chain = hashed_value % table->capacity;
-    NK_U8* working_chain = table->data[look_chain];
+    NK_Size key_length;
+    NK_U64 hashed_value;
+    NK_U64 look_chain;
+    NK_U8* working_chain = NULL;
 
     NK_U8* new_chain;
     NK_TableChainHeader new_chain_header;
-    new_chain_header.capacity = NK_CONFIG_TABLE_CHAIN_DEFAULT_SIZE;
-    new_chain_header.explored = 0;
+
+    NK_U32 new_capacity;
 
     /** NOTE: CC = Current Chain. */
     NK_TableChainHeader* cc_header;
 
     /** For indexing: */
-    NK_TableChainNodeHeader* empty_spot;
-    NK_TableChainNodeHeader* cc_node_header;
+    NK_TableChainNodeHeader* empty_spot = NULL;
+    NK_TableChainNodeHeader* cc_node_header = NULL;
     NK_U32 index;
-    NK_U8* data;
+    NK_U8* data = NULL;
 
-    /** When reallocating: */
-    NK_U32 new_capacity;
+    /** Initialize: */
+    key_length = NK_RedirectStrlen(key);
+    hashed_value = NK_Hash(key);
+    look_chain = hashed_value % table->capacity;
+    working_chain = table->data[look_chain];
+
+    /** In case we need a new chain, we leave a template ready. */
+    new_chain_header.capacity = NK_CONFIG_TABLE_CHAIN_DEFAULT_SIZE;
+    new_chain_header.explored = 0;
 
     /** Test for the value: */
     if(working_chain == NULL)
@@ -289,7 +296,7 @@ NK_TableInsertOrAssign(
         );
     cc_node_header->hash = hashed_value;
     cc_node_header->key =
-        (NK_U8*)(
+        (NK_C8*)(
             NK_AllocatorGet(sizeof(NK_C8) * (key_length + 1))
         );
     NK_RedirectMemcpy(
@@ -326,7 +333,7 @@ assignment_ending:
 void*
 NK_TableGet(
     NK_Table* table,
-    const NK_U8* key
+    const NK_C8* key
 )
 {
     void* got = NULL;
@@ -376,7 +383,7 @@ empty_chain_ending:
 NK_TableChainNodeHeader*
 NK_TableAt(
     NK_Table* table,
-    const NK_U8* key
+    const NK_C8* key
 )
 {
     /** NOTE: We can enjoy the NK_TableGet ;-) */
@@ -401,7 +408,7 @@ NK_TableAt(
 NK_Result
 NK_TableRemove(
     NK_Table* table,
-    const NK_U8* key
+    const NK_C8* key
 )
 {
     NK_Result got = false;
@@ -500,7 +507,7 @@ NK_TableIterate(
             if(
                 !iterator(
                     table,
-                    (const NK_U8*)(cc_node_header->key),
+                    (const NK_C8*)(cc_node_header->key),
                     counter,
                     (void*)data,
                     userdata

@@ -97,21 +97,26 @@ P_NK_ValidatorContentDump(
     const NK_ValidatorListenerCallback callback
 )
 {
-    NK_U64 dump_quantity = 
+    NK_U64 rewind_amount = 
         (content->buffer_counter > content->buffer_limit)
         ? content->buffer_limit
         : content->buffer_counter;
     NK_U64 index = 0;
+    NK_U64 actual_index;
     NK_ValidatorMessage* message;
-    for(index; index < dump_quantity; index++)
+    for(
+        index;
+        index < rewind_amount;
+        index++
+    )
     {
-        NK_U64 grab = 
-            ((content->buffer_counter - 1) - index) % content->buffer_limit;
-        message = &content->buffer[grab];
+        actual_index = (content->buffer_counter - (rewind_amount - index));
+        message = &content->buffer[(actual_index % content->buffer_limit)];
         if(message->flags == level)
         {
             callback(
                 content,
+                actual_index,
                 NK_DynamicStringGetBuffer(&message->string)
             );
         }
@@ -162,8 +167,9 @@ NK_ValidatorConstruct(
 )
 {
     /** NOTE: Unwrap this loop. */
+    NK_U8 index = 0;
     for(
-        NK_U8 index = 0;
+        index;
         index < NK_ENUMS_VALIDATOR_LEVEL_MAX_OPTION;
         index++
     )
@@ -187,8 +193,9 @@ NK_ValidatorDestruct(
 )
 {
     /** Destruct the sinks: */
+    NK_U8 index = 0;
     for(
-        NK_U8 index = 0;
+        index;
         index < NK_ENUMS_VALIDATOR_LEVEL_MAX_OPTION;
         index++
     )
@@ -324,6 +331,7 @@ NK_ValidatorPushMessage(
         /** We need to point to the function: */
         (*maybe_callback)(
             &validator->content,
+            validator->content.buffer_counter,
             (const NK_C8*)(dest)
         );
     }

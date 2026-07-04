@@ -16,7 +16,7 @@
  */
 typedef struct NK_DynamicString
 {
-    NK_U8* buffer;
+    NK_C8* buffer;
     NK_Size top;
     NK_Size capacity;
 } NK_DynamicString;

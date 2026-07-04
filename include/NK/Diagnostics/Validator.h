@@ -61,6 +61,7 @@ typedef struct NK_ValidatorContent
 typedef
 void(*NK_ValidatorListenerCallback)(
     NK_ValidatorContent* content,
+    const NK_U64 id,
     const NK_C8* message
 );
 

@@ -157,8 +157,8 @@ P_NK_ArgumentParserPerform(
      */
     NK_SubmergedString* maybe_action = 
         (NK_SubmergedString*)(NK_MapGet(&arg_parser->links, argument));
-
     NK_ArgumentParserActionFunction* maybe_function;
+    NK_Result should_continue;
     if(maybe_action == NULL)
     {
         arg_parser->state =
@@ -186,7 +186,7 @@ P_NK_ArgumentParserPerform(
     }
     
     /** In this very case, we have an valid argument: */
-    const NK_Result should_continue = (*maybe_function)(arg_parser);
+    should_continue = (*maybe_function)(arg_parser);
     if(!should_continue)
     {
         arg_parser->state =

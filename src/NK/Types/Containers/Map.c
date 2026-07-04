@@ -125,28 +125,34 @@ P_NK_MapAdquireNode(
     const NK_C8* key
 )
 {
+    NK_SubmergedString s_key;
+    NK_U64 look_chain;
+    NK_U8* chain = NULL;
+    NK_U8* new_chain = NULL;
+    NK_U32 new_capacity;
+    NK_MapChainHeader new_header;
+    NK_MapChainHeader* cc_header = NULL;
+    NK_MapNodeHeader* cc_node_header = NULL;
+    NK_MapNodeHeader* empty_spot = NULL;
+    NK_U8* data = NULL;
+    NK_U32 index;
     struct P_NK_MapAdquireNodeReturn operation_result;
+
+    /** Create the Return Object: */
     operation_result.newly = true;
     operation_result.adquired_node = NULL;
 
     /** We hash the string here: */
-    NK_SubmergedString s_key; NK_SubmergedStringConstruct(&s_key, key);
-    NK_U64 look_chain = NK_SubmergedStringGetHash(&s_key) % map->capacity;
-    NK_U8* chain = map->chains[look_chain];
+    NK_SubmergedStringConstruct(&s_key, key);
+    look_chain = NK_SubmergedStringGetHash(&s_key) % map->capacity;
+    chain = map->chains[look_chain];
 
     /** In case we need to create another chain: */
-    NK_U8* new_chain;
-    NK_U32 new_capacity;
-    NK_MapChainHeader new_header;
     new_header.capacity = NK_CONFIG_MAP_CHAIN_DEFAULT_SIZE;
     new_header.explored = 0;
 
-    /** Set the Explorers: */
-    NK_MapChainHeader* cc_header;
-    NK_MapNodeHeader* cc_node_header;
-    NK_MapNodeHeader* empty_spot = NULL;
-    NK_U8* data;
-    NK_U32 index = 0;
+    /** Set the index. */
+    index = 0;
 
     /** Do we have a new chain? */
     if(chain == NULL)
@@ -322,15 +328,18 @@ NK_MapGet(
 )
 {
     NK_SubmergedString s_key;
-    NK_SubmergedStringConstruct(&s_key, key);
-    NK_U64 look_chain = NK_SubmergedStringGetHash(&s_key) % map->capacity;
-    NK_U8* chain = map->chains[look_chain];
-
-    NK_MapChainHeader* cc_header;
-    NK_MapNodeHeader* cc_node_header;
+    NK_U64 look_chain;
+    NK_U8* chain = NULL;
+    NK_MapChainHeader* cc_header = NULL;
+    NK_MapNodeHeader* cc_node_header = NULL;
     NK_U32 index;
     NK_U8* data = NULL;
     
+    /** Start: */
+    NK_SubmergedStringConstruct(&s_key, key);
+    look_chain = NK_SubmergedStringGetHash(&s_key) % map->capacity;
+    chain = map->chains[look_chain];
+
     if(chain == NULL)
     {
         goto no_chain_ending;
@@ -405,13 +414,16 @@ NK_MapRemove(
 )
 {
     NK_SubmergedString s_key;
-    NK_SubmergedStringConstruct(&s_key, key);
-    NK_U64 look_chain = NK_SubmergedStringGetHash(&s_key) % map->capacity;
-    NK_U8* chain = map->chains[look_chain];
-    NK_MapChainHeader* cc_header;
-    NK_MapNodeHeader* cc_node_header;
+    NK_U64 look_chain;
+    NK_U8* chain = NULL;
+    NK_MapChainHeader* cc_header = NULL;
+    NK_MapNodeHeader* cc_node_header = NULL;
     NK_U32 index;
     NK_Result removed = false;
+
+    NK_SubmergedStringConstruct(&s_key, key);
+    look_chain = NK_SubmergedStringGetHash(&s_key) % map->capacity;
+    chain = map->chains[look_chain];
 
     if(chain == NULL)
     {
@@ -454,10 +466,10 @@ NK_MapIterate(
     NK_Size counter = 0;
     NK_Size chain_index = 0;
     NK_Size node_index;
-    NK_U8* chain;
-    NK_MapChainHeader* cc_header;
-    NK_MapNodeHeader* cc_node_header;
-    NK_U8* data;
+    NK_U8* chain = NULL;
+    NK_MapChainHeader* cc_header = NULL;
+    NK_MapNodeHeader* cc_node_header = NULL;
+    NK_U8* data = NULL;
     for(chain_index; chain_index < map->capacity; chain_index++)
     {
         chain = map->chains[chain_index];

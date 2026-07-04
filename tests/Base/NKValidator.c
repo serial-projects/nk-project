@@ -12,12 +12,13 @@ static
 void
 P_NK_ValidatorTestAnyLevelCallbackFunction(
     NK_ValidatorContent* content,
+    const NK_U64 id,
     const NK_C8* message
 )
 {
     printf(
-        "\t[%.8lu]: %s\n",
-        (NK_U64)(content->buffer_counter),
+        "\t[%12.6f]: %s\n",
+        (NK_F32)(id)/(NK_F32)(content->buffer_limit),
         message
     );
 }
@@ -26,13 +27,14 @@ static
 void
 P_NK_ValidatorTestWarningSpecificLevelCallbackFunction(
     NK_ValidatorContent* content,
+    const NK_U64 id,
     const NK_C8* message
 )
 {
     printf(
-        "\t[%f]: WARNING: %s\n",
-        (float)(
-            (float)(content->buffer_counter) / (float)(content->buffer_limit)
+        "\t[%12.6f]: WARNING: %s\n",
+        (NK_F32)(
+            (NK_F32)(id) / (NK_F32)(content->buffer_limit)
         ),
         message
     );

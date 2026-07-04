@@ -104,7 +104,7 @@ NK_DynamicStringResize(
     {
         size_delta = new_size - string->capacity;
         NK_RedirectMemset(
-            (void*)( (NK_U8*)(new_buffer) + string->capacity ),
+            (void*)( (NK_C8*)(new_buffer) + string->capacity ),
             0,
             (
                 (sizeof(NK_C8) * size_delta) + 
@@ -118,6 +118,7 @@ NK_DynamicStringResize(
     string->buffer = new_buffer;
 
     same_size_ending:
+    return;
 }
 
 void
@@ -294,7 +295,8 @@ NK_DynamicStringDuplicate(
 )
 {
     NK_Size base_size = NK_DynamicStringSize(base);
-    
+    NK_Size new_size;
+
     /** Fix the ranges: */
     if(end > base_size)
     {
@@ -307,7 +309,7 @@ NK_DynamicStringDuplicate(
     }
 
     /** Continue: */
-    const NK_Size new_size = end - start;
+    new_size = end - start;
     if((new_size + 1) >= string->capacity)
     {
         NK_DynamicStringResize(

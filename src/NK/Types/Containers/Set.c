@@ -21,7 +21,7 @@ NK_SetFree(
     NK_Set* set
 )
 {
-    NK_AllocatorFree(free);
+    NK_AllocatorFree(set);
 }
 
 void
@@ -96,9 +96,8 @@ NK_SetInsertOrAssign(
 )
 {
     NK_SubmergedString s_key;
-    NK_SubmergedStringConstruct(&s_key, key);
-    NK_U64 look_chain = NK_SubmergedStringGetHash(&s_key) % set->capacity;
-    NK_U8* maybe_chain = set->chains[look_chain];
+    NK_U64 look_chain;
+    NK_U8* maybe_chain;
     NK_U8* new_chain;
     NK_SetChainHeader* cc_header;
     NK_SetNodeHeader* cc_node_header;
@@ -106,6 +105,10 @@ NK_SetInsertOrAssign(
     NK_U32 new_chain_capacity;
     NK_U32 index;
     NK_U32 counter;
+
+    NK_SubmergedStringConstruct(&s_key, key);
+    look_chain = NK_SubmergedStringGetHash(&s_key) % set->capacity;
+    maybe_chain = set->chains[look_chain];
 
     /** Do we have an chain? */
     if(maybe_chain == NULL)
@@ -229,14 +232,17 @@ NK_SetAt(
     const NK_C8* key
 )
 {
-    NK_SubmergedString s_key;
-    NK_SubmergedStringConstruct(&s_key, key);
-    NK_U64 look_chain = NK_SubmergedStringGetHash(&s_key) % set->capacity;
-    NK_U8* maybe_chain = set->chains[look_chain];
+    NK_SubmergedString s_key;    
+    NK_U64 look_chain;
+    NK_U8* maybe_chain;
     NK_SetChainHeader* cc_header;
     NK_SetNodeHeader* cc_node_header;
     NK_U32 index;
     NK_SetNodeHeader* returning = NULL;
+
+    NK_SubmergedStringConstruct(&s_key, key);
+    look_chain = NK_SubmergedStringGetHash(&s_key) % set->capacity;
+    maybe_chain = set->chains[look_chain];
 
     if(maybe_chain == NULL)
     {

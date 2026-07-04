@@ -64,8 +64,8 @@ P_NK_StringPoolInsertGetValidEntrance(
 )
 {
     NK_StringPoolEntry empty_spot;
-    NK_RedirectMemset((void*)&empty_spot, 0, sizeof(NK_StringPoolEntry));
     NK_U64 valid_spot;
+    NK_RedirectMemset((void*)&empty_spot, 0, sizeof(NK_StringPoolEntry));
 
     /** Can we get an valid spot? */
     if(NK_VectorSize(&pool->empty_spots) > 0)

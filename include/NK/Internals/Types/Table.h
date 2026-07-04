@@ -132,7 +132,7 @@ NK_TableSize(
 NK_TableChainNodeHeader*
 NK_TableInsertOrAssign(
     NK_Table* table,
-    const NK_U8* key,
+    const NK_C8* key,
     void* src
 );
 
@@ -145,7 +145,7 @@ NK_TableInsertOrAssign(
 void*
 NK_TableGet(
     NK_Table* table,
-    const NK_U8* key
+    const NK_C8* key
 );
 
 /**
@@ -157,7 +157,7 @@ NK_TableGet(
 NK_TableChainNodeHeader*
 NK_TableAt(
     NK_Table* table,
-    const NK_U8* key
+    const NK_C8* key
 );
 
 /**
@@ -168,7 +168,7 @@ NK_TableAt(
 NK_Result
 NK_TableRemove(
     NK_Table* table,
-    const NK_U8* key
+    const NK_C8* key
 );
 
 /** Iterate: */
