@@ -79,25 +79,9 @@ typedef struct NK_Validator
     NK_ValidatorContent content;
 
     /**
-     * @brief This is the sink for `debug` messages, your listener can have an
-     * ID if you want so.
+     * @brief Contains the sinks.
      */
-    NK_Vector debug_sink;
-
-    /** 
-     * @brief This the sink for `log` messages.
-     */
-    NK_Vector log_sink;
-
-    /**
-     * @brief This is the sink for `warning` messages.
-     */
-    NK_Vector warning_sink;
-
-    /**
-     * @brief This is the sink for `error` messages.
-     */
-    NK_Vector error_sink;
+    NK_Vector sinks[1 + 1 + 1 + 1];
 } NK_Validator;
 
 /**

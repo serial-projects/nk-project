@@ -161,23 +161,18 @@ NK_ValidatorConstruct(
     const NK_Size message_limit
 )
 {
-    /** NOTE: Construct the sinks: */
-    NK_VectorConstruct(
-        &validator->debug_sink,
-        sizeof(NK_ValidatorListenerCallback)
-    );
-    NK_VectorConstruct(
-        &validator->log_sink,
-        sizeof(NK_ValidatorListenerCallback)
-    );
-    NK_VectorConstruct(
-        &validator->warning_sink,
-        sizeof(NK_ValidatorListenerCallback)
-    );
-    NK_VectorConstruct(
-        &validator->error_sink,
-        sizeof(NK_ValidatorListenerCallback)
-    );
+    /** NOTE: Unwrap this loop. */
+    for(
+        NK_U8 index = 0;
+        index < 1 + 1 + 1 + 1;
+        index++
+    )
+    {
+        NK_VectorConstruct(
+            &validator->sinks[index],
+            sizeof(NK_ValidatorListenerCallback)
+        );
+    }
 
     /** Now, construct the ring: */
     P_NK_ValidatorContentConstruct(
@@ -192,10 +187,16 @@ NK_ValidatorDestruct(
 )
 {
     /** Destruct the sinks: */
-    NK_VectorDestruct(&validator->debug_sink);
-    NK_VectorDestruct(&validator->log_sink);
-    NK_VectorDestruct(&validator->warning_sink);
-    NK_VectorDestruct(&validator->error_sink);
+    for(
+        NK_U8 index = 0;
+        index < 1 + 1 + 1 + 1;
+        index++
+    )
+    {
+        NK_VectorDestruct(
+            &validator->sinks[index]
+        );
+    }
 
     /** Now, remove the ring: */
     P_NK_ValidatorContentDestruct(&validator->content);
@@ -220,31 +221,22 @@ NK_ValidatorAddListener(
     const NK_ValidatorListenerCallback callback
 )
 {
-    NK_Vector* selected_sink = NULL;
+    NK_Vector* selected_sink = 
+        level >= 1 + 1 + 1 + 1
+        ? NULL
+        : &validator->sinks[level];
     NK_U64 added_on;
 
-    switch(level)
+    /** When NULL on `selected_sink` then, we got an IndexOutOfBounds error. */
+    if(selected_sink == NULL)
     {
-        case NK_ENUMS_VALIDATOR_LEVEL_DEBUG: 
-            selected_sink = &validator->debug_sink;
-            break;
-        case NK_ENUMS_VALIDATOR_LEVEL_LOG:
-            selected_sink = &validator->log_sink;
-            break;
-        case NK_ENUMS_VALIDATOR_LEVEL_WARNING:
-            selected_sink = &validator->warning_sink;
-            break;
-        case NK_ENUMS_VALIDATOR_LEVEL_ERROR: 
-            selected_sink = &validator->error_sink;
-            break;
-        default:
-            NK_Panic(
-                "%s: Invalid level = %d",
-                NK_CURRENT_WHERE,
-                (int)(level)
-            );
-            break;
+        NK_Panic(
+            "%s: Impossible sink level required: %d",
+            NK_CURRENT_WHERE,
+            (int)level
+        );
     }
+
     added_on = NK_VectorSize(selected_sink);
     NK_VectorPush(selected_sink, (const void*)(&callback));
 
@@ -276,12 +268,25 @@ NK_ValidatorPushMessage(
     NK_C8* dest = NK_DynamicStringGetBuffer(&message->string);
 
     /* When we be broadcasting everything to the sinks: */
-    NK_Vector* selected_sink;
+    NK_Vector* selected_sink = 
+        level >= 1 + 1 + 1 + 1
+        ? NULL
+        : &validator->sinks[level];
     NK_Size sink_index;
 
     /* `...` parameter preparation `...` */
     va_list args;
     va_start(args, format);
+
+    /** NOTE: Check if the `selected_sink` is NULL. */
+    if(selected_sink == NULL)
+    {
+        NK_Panic(
+            "%s: Impossible sink level required: %d",
+            NK_CURRENT_WHERE,
+            (int)level
+        );
+    }
     
     /* We use the buffer that is the string ;-) */
     vsnprintf(
@@ -299,29 +304,6 @@ NK_ValidatorPushMessage(
 
     /** Increment and then broadcast the message to the listeners: */
     validator->content.buffer_counter++;
-
-    switch(level)
-    {
-        case NK_ENUMS_VALIDATOR_LEVEL_DEBUG:
-            selected_sink = &validator->debug_sink;
-            break;
-        case NK_ENUMS_VALIDATOR_LEVEL_LOG:
-            selected_sink = &validator->log_sink;
-            break;
-        case NK_ENUMS_VALIDATOR_LEVEL_WARNING:
-            selected_sink = &validator->warning_sink;
-            break;
-        case NK_ENUMS_VALIDATOR_LEVEL_ERROR:
-            selected_sink = &validator->error_sink;
-            break;
-        default:
-            NK_Panic(
-                "%s: Invalid option selected = %d\n",
-                NK_CURRENT_WHERE,
-                (int)level
-            );
-            break;
-    };
 
     /* We got it: */
     sink_index = 0;
