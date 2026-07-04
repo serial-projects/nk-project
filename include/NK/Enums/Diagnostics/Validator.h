@@ -8,21 +8,29 @@
 /**
  * @brief This is the level for the debug messages.
  */
-#define NK_ENUMS_VALIDATOR_LEVEL_DEBUG                                          0b10000000
+#define NK_ENUMS_VALIDATOR_LEVEL_DEBUG                                          0
 
 /**
  * @brief This is the level for the log messages.
  */
-#define NK_ENUMS_VALIDATOR_LEVEL_LOG                                            0b01000000
+#define NK_ENUMS_VALIDATOR_LEVEL_LOG                                            1
 
 /**
  * @brief This is the level for the warning messages.
  */
-#define NK_ENUMS_VALIDATOR_LEVEL_WARNING                                        0b00100000
+#define NK_ENUMS_VALIDATOR_LEVEL_WARNING                                        2
 
 /**
  * @brief This is the level for the crash messages.
  */
-#define NK_ENUMS_VALIDATOR_LEVEL_ERROR                                          0b00010000
+#define NK_ENUMS_VALIDATOR_LEVEL_ERROR                                          3
+
+/**
+ * @brief This is the max. value for `NK_ENUMS_VALIDATOR_LEVEL`, basically
+ * the maximum amount that the functions with `level` parameter can take.
+ * 
+ * @warning Using an value on `level` will trigger panic.
+ */
+#define NK_ENUMS_VALIDATOR_LEVEL_MAX_OPTION                                     1 + 1 + 1 + 1
 
 #endif

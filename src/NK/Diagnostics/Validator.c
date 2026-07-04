@@ -164,7 +164,7 @@ NK_ValidatorConstruct(
     /** NOTE: Unwrap this loop. */
     for(
         NK_U8 index = 0;
-        index < 1 + 1 + 1 + 1;
+        index < NK_ENUMS_VALIDATOR_LEVEL_MAX_OPTION;
         index++
     )
     {
@@ -189,7 +189,7 @@ NK_ValidatorDestruct(
     /** Destruct the sinks: */
     for(
         NK_U8 index = 0;
-        index < 1 + 1 + 1 + 1;
+        index < NK_ENUMS_VALIDATOR_LEVEL_MAX_OPTION;
         index++
     )
     {
@@ -222,7 +222,7 @@ NK_ValidatorAddListener(
 )
 {
     NK_Vector* selected_sink = 
-        level >= 1 + 1 + 1 + 1
+        (level >= NK_ENUMS_VALIDATOR_LEVEL_MAX_OPTION)
         ? NULL
         : &validator->sinks[level];
     NK_U64 added_on;
@@ -269,7 +269,7 @@ NK_ValidatorPushMessage(
 
     /* When we be broadcasting everything to the sinks: */
     NK_Vector* selected_sink = 
-        level >= 1 + 1 + 1 + 1
+        (level >= NK_ENUMS_VALIDATOR_LEVEL_MAX_OPTION)
         ? NULL
         : &validator->sinks[level];
     NK_Size sink_index;
